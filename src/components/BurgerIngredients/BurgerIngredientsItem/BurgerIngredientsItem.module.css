@@ -1,0 +1,19 @@
+.item {
+  text-decoration: none;
+  display: grid;
+  color: #f2f2f3;
+  justify-items: center;
+  position: relative;
+  max-width: 260px;
+  margin-left: 16px;
+  margin-right: 16px;
+  margin-bottom: 32px;
+}
+.price {
+  display: flex;
+  gap: 8px;
+}
+
+.subtitle {
+  text-align: center;
+}
