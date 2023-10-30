@@ -2,10 +2,10 @@ import React from "react";
 import styles from "./ModalOverlay.module.css";
 import PropTypes from "prop-types";
 
-function ModalOverlay({ close }) {
+function ModalOverlay({ closeModal }) {
   const closeModalOverlay = (evt) => {
     if (evt.target.classList.contains(styles.overlay)) {
-      close();
+      closeModal();
     }
   };
   return <div className={styles.overlay} onClick={closeModalOverlay}></div>;

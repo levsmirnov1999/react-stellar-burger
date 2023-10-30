@@ -1,42 +1,64 @@
 .burgerConstructor {
-  width: 620px;
-}
-.order {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 16px;
-}
-.scroll {
-  height: 464px;
-  overflow: hidden;
-  overflow-y: auto;
-  overflow-x: hidden;
+  width: 600px;
+  opacity: 1;
+  transition: all 0.3s;
 }
 
-.scroll::-webkit-scrollbar {
+.constructor-element__action {
+  background-color: aliceblue;
+}
+
+.burgerConstructorHover {
+  width: 100%;
+  opacity: 0.3;
+  transition: all 0.3s;
+}
+
+.burgerConstructor__listitem {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  list-style: none;
+  padding: 0;
+  overflow-y: scroll;
+}
+
+.burgerConstructor__listitem::-webkit-scrollbar {
   width: 8px;
 }
-.scroll::-webkit-scrollbar-track {
+
+.burgerConstructor__listitem::-webkit-scrollbar-track {
   background: #2f2f37;
 }
-.scroll::-webkit-scrollbar-thumb {
-  background: #8585ad;
+
+.burgerConstructor__listitem::-webkit-scrollbar-thumb {
+  background-color: #8585ad;
 }
-.makingAnOrder {
+
+.burgerConstructor__item {
   display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.price {
-  display: flex;
-  align-items: center;
-}
-.ingredient {
-  display: flex;
-  align-items: center;
   gap: 8px;
+  align-items: center;
+  justify-content: end;
+  margin-right: 8px;
+}
+
+.burgerConstructor__checkout {
+  display: flex;
+  gap: 40px;
+  justify-content: end;
+}
+
+.burgerConstructor__total {
+  display: flex;
+  align-items: center;
+  font-family: "Iceland";
+  font-weight: 400;
+}
+
+.burgerConstructor__ordersum {
+  font-family: "Iceland";
+  font-weight: 400;
+  font-size: 48px;
+  line-height: 36px;
 }

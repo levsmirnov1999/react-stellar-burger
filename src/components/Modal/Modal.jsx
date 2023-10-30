@@ -5,11 +5,11 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import ModalOverlay from "../ModalOverlay/ModalOverlay";
 import PropTypes from "prop-types";
 
-function Modal({ children, close }) {
+function Modal({ children, closeModal }) {
   React.useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === "Escape") {
-        close();
+        closeModal();
       }
     };
 
@@ -18,12 +18,12 @@ function Modal({ children, close }) {
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
     };
-  }, [close]);
+  }, [closeModal]);
   return ReactDOM.createPortal(
     <>
-      <ModalOverlay close={close} />
+      <ModalOverlay close={closeModal} />
       <div className={`${styles.modal} pt-10 pb-15`}>
-        <button className={styles.closeButton} onClick={close}>
+        <button className={styles.closeButton} onClick={closeModal}>
           <CloseIcon type="primary" />
         </button>
         {children}

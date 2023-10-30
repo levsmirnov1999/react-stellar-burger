@@ -6,66 +6,56 @@ import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
-
-const url = `https://norma.nomoreparties.space/api/ingredients`;
+import { useDispatch, useSelector } from "react-redux";
+import { closeAllModals } from "../../services/modalSlice";
+import { fetchIngredients } from "../../services/ingredientsQuery";
+import { addIngredient } from "../../services/constructorSlice";
+import { DndProvider } from "react-dnd";
+import { HTML5Backend } from "react-dnd-html5-backend";
 
 function App() {
-  const [apiData, setApiData] = React.useState([]);
-  const [success, setSuccess] = React.useState(false);
+  const state = useSelector((store) => {
+    return store;
+  });
+
+  const dispatch = useDispatch();
 
   React.useEffect(() => {
-    getData();
+    dispatch(fetchIngredients());
   }, []);
 
-  const getData = async () => {
-    return fetch(url)
-      .then((response) => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          setSuccess(false);
-          throw new Error("Ошибка при получении данных");
-        }
-      })
-      .then((data) => {
-        setApiData(data.data);
-        setSuccess(data.success);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+  const handleDrop = (ingredient) => {
+    dispatch(addIngredient(ingredient));
   };
 
-  const [openModal, setOpenModal] = React.useState(false);
-  const [item, setItem] = React.useState(null);
-
-  const handleOnButtonClick = () => {
-    setItem(null);
-    setOpenModal((prevState) => !prevState);
-  };
-
-  const handleIngredientClick = (selectedItem) => {
-    setItem(selectedItem);
-    setOpenModal((prevState) => !prevState);
-  };
-
-  const closeModal = () => {
-    setOpenModal(false);
+  const handleCloseModals = () => {
+    dispatch(closeAllModals());
   };
 
   return (
     <>
       <AppHeader />
       <main className={styles.main}>
-        <BurgerIngredients
-          ingredients={apiData}
-          handleIngredientClick={handleIngredientClick}
-        />
-        <BurgerConstructor handleOnButtonClick={handleOnButtonClick} />
+        <DndProvider backend={HTML5Backend}>
+          <BurgerIngredients />
+          <BurgerConstructor onDropHandler={handleDrop} />
+        </DndProvider>
       </main>
-      {openModal && (
-        <Modal close={closeModal}>
-          {item ? <IngredientDetails ingredient={item} /> : <OrderDetails />}
+
+      {state.modal?.orderDetails?.isOpened && (
+        <Modal onClick={handleCloseModals} closeModal={handleCloseModals}>
+          <OrderDetails
+            orderNumber={state.burgerConstructor?.orderNumber}
+            closeModal={handleCloseModals}
+          />
+        </Modal>
+      )}
+      {state.modal?.ingredientDetails?.isOpened && (
+        <Modal closeModal={handleCloseModals}>
+          <IngredientDetails
+            ingredientData={state.data.ingredientDetails.ingredient}
+            closeModal={handleCloseModals}
+          />
         </Modal>
       )}
     </>

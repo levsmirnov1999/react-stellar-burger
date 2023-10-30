@@ -1,22 +1,21 @@
 import React from "react";
 import styles from "./IngredientDetails.module.css";
 
-function IngredientDetails({ ingredient }) {
+function IngredientDetails({ ingredientData }) {
+  const { image_large, name, calories, carbohydrates, fat, proteins } =
+    ingredientData;
+
   return (
     <>
       <h2 className={`${styles.title} text text_type_main-large pl-10`}>
         Детали ингредиента
       </h2>
       <div className={`${styles.details} pl-25 pr-25`}>
-        <img
-          className="ml-5 mr-5"
-          src={ingredient.image_large}
-          alt={ingredient.name}
-        />
+        <img className="ml-5 mr-5" src={image_large} alt={name} />
         <p
           className={`${styles.titleIngredient} text text_type_main-medium mt-4`}
         >
-          {ingredient.name}
+          {name}
         </p>
         <ul className={`${styles.energyValues} mt-8`}>
           <li className={styles.energyValue}>
@@ -24,7 +23,7 @@ function IngredientDetails({ ingredient }) {
               Калории,ккал
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.calories}
+              {calories}
             </p>
           </li>
           <li className={styles.energyValue}>
@@ -32,7 +31,7 @@ function IngredientDetails({ ingredient }) {
               Белки, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.proteins}
+              {proteins}
             </p>
           </li>
           <li className={styles.energyValue}>
@@ -40,7 +39,7 @@ function IngredientDetails({ ingredient }) {
               Жиры, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.fat}
+              {fat}
             </p>
           </li>
           <li className={styles.energyValue}>
@@ -48,7 +47,7 @@ function IngredientDetails({ ingredient }) {
               Углеводы, г
             </p>
             <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.carbohydrates}
+              {carbohydrates}
             </p>
           </li>
         </ul>
