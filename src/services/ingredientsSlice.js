@@ -22,20 +22,21 @@ const ingredientsSlice = createSlice({
       state.ingredientsCurrentTab = action.payload;
     },
   },
-  extraReducers: {
-    [fetchIngredients.fulfilled.type]: (state, action) => {
-      state.isLoading = false;
-      state.error = "";
-      state.ingredients = action.payload;
-    },
-    [fetchIngredients.rejected.type]: (state, action) => {
-      state.isLoading = false;
-      state.error = action.payload;
-    },
-    [fetchIngredients.pending.type]: (state) => {
-      state.isLoading = true;
-      state.error = "";
-    },
+  extraReducers: (builder) => {
+    builder
+      .addCase(fetchIngredients.pending, (state) => {
+        state.isLoading = true;
+        state.error = "";
+      })
+      .addCase(fetchIngredients.fulfilled, (state, action) => {
+        state.isLoading = false;
+        state.error = "";
+        state.ingredients = action.payload;
+      })
+      .addCase(fetchIngredients.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = "";
+      });
   },
 });
 export const { getIngredientData, toggleIngredientsTab } =

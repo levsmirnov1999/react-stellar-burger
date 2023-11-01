@@ -1,48 +1,60 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { v4 as uuidv4 } from "uuid";
 
 const initialState = {
   bun: null,
   ingredients: [],
+  totalPrice: 0,
   orderNumber: null,
-  success: false,
-  errorMessage: null,
+  orderError: null,
 };
 
 const constructorSlice = createSlice({
-  name: "constructor",
+  name: "burgerConstructor",
   initialState,
   reducers: {
     addIngredient: (state, action) => {
-      if (action.payload.type === "bun") {
-        state.bun = action.payload;
+      const ingredient = {
+        ...action.payload.ingredient,
+        uniqueId: uuidv4(),
+      };
+      const ingredientPrice = ingredient.price;
+
+      if (ingredient.type === "bun") {
+        if (state.bun) {
+          state.totalPrice -= state.bun.price * 2;
+        }
+        state.bun = ingredient;
+        state.totalPrice += ingredientPrice * 2;
       } else {
-        state.ingredients = [action.payload, ...state.ingredients];
+        state.ingredients.push(ingredient);
+        state.totalPrice += ingredientPrice;
       }
     },
-    moveIngredient: (state, action) => {
-      const ingredients = [...state.ingredients];
-      ingredients.splice(
-        action.payload.hoverIndex,
-        0,
-        ingredients.splice(action.payload.dragIndex, 1)[0]
-      );
-      state.ingredients = ingredients;
-    },
+
     removeIngredient: (state, action) => {
-      state.ingredients = [...state.ingredients].filter(
-        (item, index) => index !== action.payload
+      const index = state.ingredients.findIndex(
+        (ing) => ing.uniqueId === action.payload.ingredient.uniqueId
       );
+      if (index !== -1) {
+        state.totalPrice -= state.ingredients[index].price;
+        state.ingredients.splice(index, 1);
+      }
+    },
+
+    resetConstructor: (state) => {
+      return initialState;
+    },
+    moveIngredient: (state, action) => {
+      const { oldIndex, newIndex } = action.payload;
+      const [removed] = state.ingredients.splice(oldIndex, 1);
+      state.ingredients.splice(newIndex, 0, removed);
     },
     saveOrderNumber: (state, action) => {
-      state.orderNumber = action.payload.order.number;
-      state.ingredients = [];
-      state.bun = null;
-      state.success = true;
+      state.orderNumber = action.payload;
     },
-    statusSuccess: (state, action) => {
-      state.errorMessage = action.payload;
-      state.success = false;
-      state.orderNumber = null;
+    setOrderError: (state, action) => {
+      state.orderError = action.payload;
     },
   },
 });
@@ -50,8 +62,9 @@ const constructorSlice = createSlice({
 export const {
   addIngredient,
   removeIngredient,
+  resetConstructor,
   moveIngredient,
   saveOrderNumber,
-  statusSuccess,
+  setOrderError,
 } = constructorSlice.actions;
 export default constructorSlice.reducer;

@@ -1,4 +1,3 @@
-import React from "react";
 import {
   Counter,
   CurrencyIcon,
@@ -8,23 +7,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredientData } from "../../../services/ingredientsSlice";
 import { openIngredient } from "../../../services/modalSlice";
 import { useDrag } from "react-dnd";
-import { useMemo } from "react";
+import PropTypes from "prop-types";
+import { ingredientsPropTypes } from "../../../utils/ingredientsPropTypes";
 
 function BurgerIngredientsItem({ ingredient }) {
   const dispatch = useDispatch();
 
   const store = useSelector((store) => store);
   const ingredients = store.constructorSlice.ingredients;
+  const bun = useSelector((state) => state.constructorSlice.bun);
 
-  const [, dragRef] = useDrag({
+  const countIngredient = (ingredientId) => {
+    const countFromIngredients = ingredients.filter(
+      (ing) => ing._id === ingredientId
+    ).length;
+
+    let bunCount = 0;
+    if (bun && bun._id === ingredientId) {
+      bunCount = 2;
+    }
+
+    return countFromIngredients + bunCount;
+  };
+
+  const [{ isDragging }, dragRef] = useDrag({
     type: "ingredient",
-    item: ingredient,
+    item: { ingredient },
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging(),
+    }),
   });
-
-  const quantity = useMemo(() => {
-    return ingredients.filter((ingredient) => ingredient._id === ingredient._id)
-      .length;
-  }, [ingredients]);
 
   const getIngredientsData = (ingredient) => {
     dispatch(getIngredientData(ingredient));
@@ -37,7 +49,8 @@ function BurgerIngredientsItem({ ingredient }) {
       tabIndex="0"
       onClick={() => getIngredientsData(ingredient)}
     >
-      {quantity !== 0 && <Counter count={quantity} size="default" />}
+      <Counter count={countIngredient(ingredient._id)} size="default" />
+
       <img className="ml-4 mr-4" src={ingredient.image} alt={ingredient.name} />
       <div className={`${styles.price} mt-2 mb-2`}>
         <p className="text text_type_digits-default">{ingredient.price}</p>
@@ -49,5 +62,9 @@ function BurgerIngredientsItem({ ingredient }) {
     </li>
   );
 }
+
+BurgerIngredientsItem.propTypes = {
+  ingredient: PropTypes.shape(ingredientsPropTypes),
+};
 
 export default BurgerIngredientsItem;
