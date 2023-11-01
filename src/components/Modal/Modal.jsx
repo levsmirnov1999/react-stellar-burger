@@ -6,17 +6,17 @@ import styles from "./Modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 const modalsContainer = document.getElementById("modals");
 
-const Modal = ({ closeModal, onClick, children }) => {
+const Modal = ({ closeModal, children }) => {
   React.useEffect(() => {
+    const handleEscKeydown = (e) => {
+      e.key === "Escape" && closeModal(e);
+    };
+
     document.addEventListener("keydown", handleEscKeydown);
     return () => {
       document.removeEventListener("keydown", handleEscKeydown);
     };
-  }, []);
-
-  const handleEscKeydown = (e) => {
-    e.key === "Escape" && onClick(e);
-  };
+  }, [closeModal]);
 
   return ReactDOM.createPortal(
     <>
@@ -26,14 +26,13 @@ const Modal = ({ closeModal, onClick, children }) => {
         </div>
         {children}
       </div>
-      <ModalOverlay onClick={onClick} />
+      <ModalOverlay closeModal={closeModal} />
     </>,
     modalsContainer
   );
 };
 
 Modal.propTypes = {
-  onClick: PropTypes.func.isRequired,
   children: PropTypes.node.isRequired,
   closeModal: PropTypes.func.isRequired,
 };

@@ -13,10 +13,6 @@ function BurgerIngredients() {
   );
   const dispatch = useDispatch();
 
-  React.useEffect(() => {
-    dispatch(fetchIngredients());
-  }, []);
-
   const handleTabClick = (tab) => {
     dispatch(toggleIngredientsTab(tab));
     const element = document.getElementById(tab);

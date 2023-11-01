@@ -1,7 +1,7 @@
 import React from "react";
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import styles from "./app.module.css";
+import styles from "./App.module.css";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
@@ -37,12 +37,12 @@ function App() {
         </DndProvider>
       </main>
       {state.modalSlice?.orderDetails?.isOpened && (
-        <Modal onClick={handleCloseModals} closeModal={handleCloseModals}>
+        <Modal closeModal={handleCloseModals}>
           <OrderDetails closeModal={handleCloseModals} />
         </Modal>
       )}
       {state.modalSlice?.ingredientDetails?.isOpened && (
-        <Modal onClick={handleCloseModals} closeModal={handleCloseModals}>
+        <Modal closeModal={handleCloseModals}>
           <IngredientDetails
             title={`Детали ингредиента`}
             ingredientData={state.ingredientsSlice.ingredientDetails.ingredient}

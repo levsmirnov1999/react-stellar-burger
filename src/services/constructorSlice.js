@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
+import { createOrder } from "./createOrderQuery";
 
 const initialState = {
   bun: null,
@@ -56,6 +57,19 @@ const constructorSlice = createSlice({
     setOrderError: (state, action) => {
       state.orderError = action.payload;
     },
+  },
+  extraReducers: (builder) => {
+    builder
+      .addCase(createOrder.pending, (state) => {})
+      .addCase(createOrder.fulfilled, (state, action) => {
+        if (action.payload.success) {
+          state.orderNumber = action.payload.order.number;
+        }
+      })
+      .addCase(createOrder.rejected, (state, action) => {
+        console.error("Ошибка:", action.error.message);
+        state.orderError = action.error.message;
+      });
   },
 });
 

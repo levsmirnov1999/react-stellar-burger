@@ -7,12 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerConstructorIngredient from "../BurgerConstructorIngredient/BurgerConstructorIngredient";
 import { openOrderModal } from "../../services/modalSlice";
-import {
-  addIngredient,
-  saveOrderNumber,
-} from "../../services/constructorSlice";
+import { addIngredient } from "../../services/constructorSlice";
 import styles from "./BurgerConstructor.module.css";
 import PropTypes from "prop-types";
+import { createOrder } from "../../services/createOrderQuery";
 
 function BurgerConstructor() {
   const bunInConstructor = useSelector((state) => state.constructorSlice.bun);
@@ -30,47 +28,25 @@ function BurgerConstructor() {
     },
   });
 
-  const createOrder = async (ingredients) => {
-    const response = await fetch(
-      "https://norma.nomoreparties.space/api/orders",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ ingredients }),
-      }
+  const handleOrder = () => {
+    const ingredientIds = ingredientsInConstructor.map(
+      (ingredient) => ingredient._id
     );
-
-    if (!response.ok) {
-      throw new Error("Ошибка");
+    if (bunInConstructor) {
+      ingredientIds.push(bunInConstructor._id, bunInConstructor._id);
     }
-
-    const data = await response.json();
-
-    return data;
-  };
-
-  const handleOrder = async () => {
-    try {
-      const ingredientIds = ingredientsInConstructor.map(
-        (ingredient) => ingredient._id
-      );
-      if (bunInConstructor) {
-        ingredientIds.push(bunInConstructor._id, bunInConstructor._id);
-      }
-
-      const orderData = await createOrder(ingredientIds);
-
-      if (orderData.success) {
-        dispatch(saveOrderNumber(orderData.order.number));
-        dispatch(openOrderModal());
-      } else {
-        throw new Error(orderData.message);
-      }
-    } catch (error) {
-      console.error("Ошибка:", error);
-    }
+    dispatch(createOrder(ingredientIds))
+      .unwrap()
+      .then((orderData) => {
+        if (orderData.success) {
+          dispatch(openOrderModal());
+        } else {
+          throw new Error(orderData.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+      });
   };
 
   return (
