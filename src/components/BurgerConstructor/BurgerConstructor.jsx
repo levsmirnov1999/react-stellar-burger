@@ -1,123 +1,103 @@
-import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useDrop } from "react-dnd";
 import {
+  ConstructorElement,
   Button,
   CurrencyIcon,
-  ConstructorElement,
-  DragIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import BurgerConstructorIngredient from "../BurgerConstructorIngredient/BurgerConstructorIngredient";
+import { openOrderModal } from "../../services/modalSlice";
+import { addIngredient } from "../../services/constructorSlice";
 import styles from "./BurgerConstructor.module.css";
+import PropTypes from "prop-types";
+import { createOrder } from "../../services/createOrderQuery";
 
-function BurgerConstructor({ handleOnButtonClick }) {
+function BurgerConstructor() {
+  const bunInConstructor = useSelector((state) => state.constructorSlice.bun);
+  const totalPrice = useSelector((state) => state.constructorSlice.totalPrice);
+  const ingredientsInConstructor = useSelector(
+    (state) => state.constructorSlice.ingredients
+  );
+
+  const dispatch = useDispatch();
+
+  const [, dropRef] = useDrop({
+    accept: "ingredient",
+    drop: (item) => {
+      dispatch(addIngredient(item));
+    },
+  });
+
+  const handleOrder = () => {
+    const ingredientIds = ingredientsInConstructor.map(
+      (ingredient) => ingredient._id
+    );
+    if (bunInConstructor) {
+      ingredientIds.push(bunInConstructor._id, bunInConstructor._id);
+    }
+    dispatch(createOrder(ingredientIds))
+      .unwrap()
+      .then((orderData) => {
+        if (orderData.success) {
+          dispatch(openOrderModal());
+        } else {
+          throw new Error(orderData.message);
+        }
+      })
+      .catch((error) => {
+        console.error("Ошибка:", error);
+      });
+  };
+
   return (
-    <section className={`${styles.burgerConstructor} mt-25`}>
+    <section ref={dropRef} className={`${styles.burgerConstructor} mt-25`}>
       <ul className={styles.order}>
-        <li className="mr-4">
-          <ConstructorElement
-            type="top"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={1255}
-            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          />
-        </li>
+        {bunInConstructor && (
+          <li className="mr-4">
+            <ConstructorElement
+              type="top"
+              isLocked={true}
+              text={bunInConstructor.name + " (верх)"}
+              price={bunInConstructor.price}
+              thumbnail={bunInConstructor.image}
+            />
+          </li>
+        )}
+
         <div className={`${styles.scroll} pr-2`}>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Соус фирменный Space Sauce"
-              price="80"
-              thumbnail={"https://code.s3.yandex.net/react/code/sauce-04.png"}
+          {ingredientsInConstructor.map((ingredient, index) => (
+            <BurgerConstructorIngredient
+              key={ingredient.uniqueId}
+              ingredient={ingredient}
+              index={index}
             />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Хрустящие минеральные кольца"
-              price="300"
-              thumbnail={
-                "https://code.s3.yandex.net/react/code/mineral_rings.png"
-              }
-            />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Биокотлета из марсианской Магнолии"
-              price="424"
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-01.png"}
-            />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Сыр с астероидной плесенью"
-              price="4142"
-              thumbnail={"https://code.s3.yandex.net/react/code/cheese.png"}
-            />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Соус фирменный Space Sauce"
-              price="80"
-              thumbnail={"https://code.s3.yandex.net/react/code/sauce-04.png"}
-            />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Биокотлета из марсианской Магнолии"
-              price="424"
-              thumbnail={"https://code.s3.yandex.net/react/code/meat-01.png"}
-            />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Сыр с астероидной плесенью"
-              price="4142"
-              thumbnail={"https://code.s3.yandex.net/react/code/cheese.png"}
-            />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Хрустящие минеральные кольца"
-              price="300"
-              thumbnail={
-                "https://code.s3.yandex.net/react/code/mineral_rings.png"
-              }
-            />
-          </li>
-          <li className={`${styles.ingredient} mb-4`}>
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Соус фирменный Space Sauce"
-              price="80"
-              thumbnail={"https://code.s3.yandex.net/react/code/sauce-04.png"}
-            />
-          </li>
+          ))}
         </div>
-        <li className="mr-4">
-          <ConstructorElement
-            type="bottom"
-            isLocked={true}
-            text="Краторная булка N-200i (верх)"
-            price={1255}
-            thumbnail={"https://code.s3.yandex.net/react/code/bun-02.png"}
-          />
-        </li>
+
+        {bunInConstructor && (
+          <li className="mr-4">
+            <ConstructorElement
+              type="bottom"
+              isLocked={true}
+              text={bunInConstructor.name + " (низ)"}
+              price={bunInConstructor.price}
+              thumbnail={bunInConstructor.image}
+            />
+          </li>
+        )}
       </ul>
+
       <div className={`${styles.makingAnOrder} mt-10`}>
         <div className={`${styles.price} mr-10`}>
-          <p className="text text_type_digits-medium mr-2">12482</p>
+          <p className="text text_type_digits-medium mr-2">{totalPrice}</p>
           <CurrencyIcon type="primary" />
         </div>
         <Button
-          onClick={handleOnButtonClick}
+          onClick={handleOrder}
           type="primary"
           size="large"
           htmlType="button"
+          disabled={!bunInConstructor}
         >
           Оформить заказ
         </Button>
@@ -125,5 +105,12 @@ function BurgerConstructor({ handleOnButtonClick }) {
     </section>
   );
 }
+
+ConstructorElement.propTypes = {
+  isLocked: PropTypes.bool.isRequired,
+  text: PropTypes.string.isRequired,
+  price: PropTypes.number.isRequired,
+  thumbnail: PropTypes.string.isRequired,
+};
 
 export default BurgerConstructor;

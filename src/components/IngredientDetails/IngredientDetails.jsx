@@ -1,60 +1,57 @@
-import React from "react";
 import styles from "./IngredientDetails.module.css";
+import PropTypes from "prop-types";
+import { ingredientsPropTypes } from "../../utils/ingredientsPropTypes";
 
-function IngredientDetails({ ingredient }) {
+function IngredientDetails({ title, ingredientData }) {
+  const { image_large, name, calories, carbohydrates, fat, proteins } =
+    ingredientData;
+
   return (
-    <>
-      <h2 className={`${styles.title} text text_type_main-large pl-10`}>
-        Детали ингредиента
-      </h2>
-      <div className={`${styles.details} pl-25 pr-25`}>
-        <img
-          className="ml-5 mr-5"
-          src={ingredient.image_large}
-          alt={ingredient.name}
-        />
-        <p
-          className={`${styles.titleIngredient} text text_type_main-medium mt-4`}
-        >
-          {ingredient.name}
-        </p>
-        <ul className={`${styles.energyValues} mt-8`}>
-          <li className={styles.energyValue}>
-            <p className="text text_type_main-default text_color_inactive">
-              Калории,ккал
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.calories}
-            </p>
-          </li>
-          <li className={styles.energyValue}>
-            <p className="text text_type_main-default text_color_inactive">
-              Белки, г
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.proteins}
-            </p>
-          </li>
-          <li className={styles.energyValue}>
-            <p className="text text_type_main-default text_color_inactive">
-              Жиры, г
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.fat}
-            </p>
-          </li>
-          <li className={styles.energyValue}>
-            <p className="text text_type_main-default text_color_inactive">
-              Углеводы, г
-            </p>
-            <p className="text text_type_digits-default text_color_inactive">
-              {ingredient.carbohydrates}
-            </p>
-          </li>
-        </ul>
+    <div className={`pl-10 pr-10 ${styles.ingredient}`}>
+      <div className={`mt-10 ${styles.header}`}>
+        <h2 className={`text text_type_main-large ${styles.title}`}>{title}</h2>
       </div>
-    </>
+      <img
+        className={`mt-15 mb-15 ${styles.image}`}
+        src={image_large}
+        alt="Ингредиент"
+      />
+      <p className={`text text_type_main-medium mt-4 mb-8 ${styles.name}`}>
+        {name}
+      </p>
+      <ul className={`text text_type_main-default mb-15 ${styles.listItem}`}>
+        <li className={`text text_type_main-default ${styles.item}`}>
+          <p className={`text text_type_main-default ${styles.itemText}`}>
+            Калории,ккал
+          </p>
+          <p className={`${styles.itemValue}`}>{calories}</p>
+        </li>
+        <li className={`text text_type_main-default ${styles.item}`}>
+          <p className={`text text_type_main-default ${styles.itemText}`}>
+            Белки, г
+          </p>
+          <p className={`${styles.itemValue}`}>{proteins}</p>
+        </li>
+        <li className={`text text_type_main-default ${styles.item}`}>
+          <p className={`text text_type_main-default ${styles.itemText}`}>
+            Жиры, г
+          </p>
+          <p className={`${styles.itemValue}`}>{fat}</p>
+        </li>
+        <li className={`text text_type_main-default ${styles.item}`}>
+          <p className={`text text_type_main-default ${styles.itemText}`}>
+            Углеводы, г
+          </p>
+          <p className={`${styles.itemValue}`}>{carbohydrates}</p>
+        </li>
+      </ul>
+    </div>
   );
 }
+
+IngredientDetails.propTypes = {
+  title: PropTypes.string.isRequired,
+  ingredientData: PropTypes.shape(ingredientsPropTypes),
+};
 
 export default IngredientDetails;

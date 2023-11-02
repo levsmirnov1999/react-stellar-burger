@@ -11,7 +11,7 @@
   gap: 16px;
 }
 .scroll {
-  height: 464px;
+  max-height: 464px;
   overflow: hidden;
   overflow-y: auto;
   overflow-x: hidden;
@@ -34,9 +34,4 @@
 .price {
   display: flex;
   align-items: center;
-}
-.ingredient {
-  display: flex;
-  align-items: center;
-  gap: 8px;
 }
