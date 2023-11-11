@@ -45,15 +45,23 @@ function EditProfile() {
     setTimeout(() => emailRef.current?.focus(), 0);
     setEmail({ ...email, disabled: false });
   };
-  const onSaveClick = () => {
-    dispatch(updateUserData({ name: name.userName, email: email.mail }));
+  const onSaveClick = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(
+        updateUserData({ name: name.userName, email: email.mail })
+      ).unwrap();
+    } catch (error) {
+      console.error("Ошибка при обновлении данных:", error);
+    }
   };
+
   const onCancelClick = () => {
     setName({ userName: initialUserData.current.name, disabled: true });
     setEmail({ mail: initialUserData.current.email, disabled: true });
   };
   return (
-    <div className={styles.editProfile}>
+    <form onSubmit={onSaveClick} className={styles.editProfile}>
       <Input
         type={"text"}
         placeholder={"Имя"}
@@ -97,16 +105,11 @@ function EditProfile() {
         >
           Отмена
         </Button>
-        <Button
-          onClick={onSaveClick}
-          htmlType="button"
-          type="primary"
-          size="medium"
-        >
+        <Button htmlType="submit" type="primary" size="medium">
           Сохранить
         </Button>
       </div>
-    </div>
+    </form>
   );
 }
 

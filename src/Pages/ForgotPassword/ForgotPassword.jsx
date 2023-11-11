@@ -16,17 +16,19 @@ function ForgotPassword() {
     (state) => state.userSlice
   );
 
-  const handlePasswordReset = () => {
-    dispatch(initiatePasswordReset(email)).then((action) => {
-      if (action.type === "auth/initiatePasswordReset/fulfilled") {
-        localStorage.setItem("resetPasswordAllowed", "true");
-        navigate("/reset-password");
-      }
-    });
+  const handlePasswordReset = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(initiatePasswordReset(email)).unwrap();
+      localStorage.setItem("resetPasswordAllowed", "true");
+      navigate("/reset-password");
+    } catch (error) {
+      console.error("Ошибка при сбросе пароля:", error);
+    }
   };
 
   return (
-    <div className={styles.forgotPassword}>
+    <form onSubmit={handlePasswordReset} className={styles.forgotPassword}>
       <p className="text text_type_main-medium mb-6">Восстановление пароля</p>
       <EmailInput
         placeholder={"Укажите e-mail"}
@@ -36,13 +38,7 @@ function ForgotPassword() {
         isIcon={false}
         extraClass="mb-6"
       />
-      <Button
-        onClick={handlePasswordReset}
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="large" extraClass="mb-20">
         Восстановить
       </Button>
       <div className={styles.questions}>
@@ -51,7 +47,7 @@ function ForgotPassword() {
           <p className="text text_type_main-default mb-4">Войти</p>
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 

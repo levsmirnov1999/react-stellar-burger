@@ -20,23 +20,20 @@ function Register() {
   const [name, setName] = React.useState("");
   const [pass, setPass] = React.useState("");
 
-  const handleRegister = () => {
-    dispatch(register({ email, password: pass, name }));
+  const handleRegister = async (e) => {
+    e.preventDefault();
+    dispatch(register({ email, password: pass, name }))
+      .unwrap()
+      .then(() => {
+        navigate("/");
+      })
+      .catch((err) => {
+        console.error("Failed to login: ", err);
+      });
   };
 
-  let errorContent = null;
-  if (status === "failed") {
-    errorContent = <p className="error">{error}</p>;
-  }
-
-  React.useEffect(() => {
-    if (authStatus === "succeeded") {
-      navigate("/");
-    }
-  }, [authStatus, navigate]);
-
   return (
-    <div className={styles.register}>
+    <form onSubmit={handleRegister} className={styles.register}>
       <p className="text text_type_main-medium mb-6">Регистрация</p>
       <Input
         type={"text"}
@@ -63,23 +60,16 @@ function Register() {
         name={"password"}
         extraClass="mb-6"
       />
-      <Button
-        onClick={handleRegister}
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="large" extraClass="mb-20">
         Зарегистрироваться
       </Button>
-      {errorContent}
       <div className={styles.questions}>
         <p className="text text_type_main-default">Уже зарегистрированы?</p>
         <Link to="/login" className={styles.link}>
           <p className="text text_type_main-default mb-4">Войти</p>
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 export default Register;

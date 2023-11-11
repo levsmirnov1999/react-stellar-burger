@@ -24,6 +24,7 @@ function App() {
   const state = useSelector((store) => {
     return store;
   });
+  console.log(state);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();

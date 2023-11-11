@@ -28,17 +28,19 @@ function ResetPassword() {
     return <Navigate to="/forgot-password" replace />;
   }
 
-  const handlePasswordChange = () => {
-    dispatch(confirmPasswordReset({ password, token })).then((action) => {
-      if (action.type === "auth/confirmPasswordReset/fulfilled") {
-        localStorage.removeItem("resetPasswordAllowed");
-        navigate("/login");
-      }
-    });
+  const handlePasswordChange = async (e) => {
+    e.preventDefault();
+    try {
+      await dispatch(confirmPasswordReset({ password, token })).unwrap();
+      localStorage.removeItem("resetPasswordAllowed");
+      navigate("/login");
+    } catch (error) {
+      console.error("Ошибка при смене пароля:", error);
+    }
   };
 
   return (
-    <div className={styles.resetPassword}>
+    <form onSubmit={handlePasswordChange} className={styles.resetPassword}>
       <p className="text text_type_main-medium mb-6">Восстановление пароля</p>
       <PasswordInput
         onChange={(e) => setPassword(e.target.value)}
@@ -58,13 +60,7 @@ function ResetPassword() {
         size={"default"}
         extraClass="mb-6"
       />
-      <Button
-        onClick={handlePasswordChange}
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="large" extraClass="mb-20">
         Сохранить
       </Button>
       <div className={styles.questions}>
@@ -73,7 +69,7 @@ function ResetPassword() {
           <p className="text text_type_main-default mb-4">Войти</p>
         </Link>
       </div>
-    </div>
+    </form>
   );
 }
 

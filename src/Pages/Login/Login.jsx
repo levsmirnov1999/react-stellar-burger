@@ -47,13 +47,7 @@ function Login() {
         name={"password"}
         extraClass="mb-6"
       />
-      <Button
-        onClick={handleSubmit}
-        htmlType="button"
-        type="primary"
-        size="large"
-        extraClass="mb-20"
-      >
+      <Button htmlType="submit" type="primary" size="large" extraClass="mb-20">
         Войти
       </Button>
       <div className={styles.questions}>
