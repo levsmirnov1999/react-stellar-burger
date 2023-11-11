@@ -8,7 +8,6 @@
 
 .header {
   display: flex;
-  width: 640px;
   justify-content: space-between;
   align-items: center;
 }
