@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { initiatePasswordReset } from "../../services/userSlice";
+import { initiatePasswordReset } from "../../services/userQuery";
 
 function ForgotPassword() {
   const [email, setEmail] = React.useState("");

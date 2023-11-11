@@ -8,7 +8,7 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 
 import { Link, useNavigate } from "react-router-dom";
-import { login } from "../../services/userSlice";
+import { login } from "../../services/userQuery";
 
 function Login() {
   const dispatch = useDispatch();

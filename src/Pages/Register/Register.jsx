@@ -8,7 +8,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { register } from "../../services/userSlice";
+import { register } from "../../services/userQuery";
 
 function Register() {
   const dispatch = useDispatch();

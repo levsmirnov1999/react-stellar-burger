@@ -20,6 +20,9 @@ function BurgerConstructor() {
     (state) => state.constructorSlice.ingredients
   );
   const user = useSelector((state) => state.userSlice.user);
+  const isCreatingOrder = useSelector(
+    (state) => state.constructorSlice.isCreatingOrder
+  );
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -105,11 +108,12 @@ function BurgerConstructor() {
           type="primary"
           size="large"
           htmlType="button"
-          disabled={!bunInConstructor}
+          disabled={!bunInConstructor || isCreatingOrder}
         >
           Оформить заказ
         </Button>
       </div>
+      {isCreatingOrder && <span className={styles.loader}></span>}
     </section>
   );
 }

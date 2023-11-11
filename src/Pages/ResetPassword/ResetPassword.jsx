@@ -6,8 +6,8 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { confirmPasswordReset } from "../../services/userSlice";
 import { useDispatch, useSelector } from "react-redux";
+import { confirmPasswordReset } from "../../services/userQuery";
 
 function ResetPassword() {
   const [password, setPassword] = React.useState("");

@@ -2,7 +2,7 @@ import React from "react";
 import styles from "./Profile.module.css";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import { logout } from "../../services/userSlice";
+import { logout } from "../../services/userQuery";
 
 function Profile() {
   const navigate = useNavigate();

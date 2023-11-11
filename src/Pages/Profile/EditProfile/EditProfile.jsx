@@ -2,12 +2,11 @@ import React, { useState, useEffect, useRef } from "react";
 import styles from "./EditProfile.module.css";
 import {
   Input,
-  EmailInput,
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchUserData, updateUserData } from "../../../services/userSlice";
+import { fetchUserData, updateUserData } from "../../../services/userQuery";
 
 function EditProfile() {
   const dispatch = useDispatch();

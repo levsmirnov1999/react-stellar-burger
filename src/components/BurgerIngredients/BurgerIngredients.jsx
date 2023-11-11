@@ -1,7 +1,6 @@
 import React from "react";
 import styles from "./BurgerIngredients.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchIngredients } from "../../services/ingredientsQuery";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsItem from "./BurgerIngredientsItem/BurgerIngredientsItem";
 import { toggleIngredientsTab } from "../../services/ingredientsSlice";

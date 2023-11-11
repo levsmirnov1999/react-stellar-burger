@@ -16,15 +16,14 @@ import ResetPassword from "../../Pages/ResetPassword/ResetPassword";
 import Profile from "../../Pages/Profile/Profile";
 import EditProfile from "../../Pages/Profile/EditProfile/EditProfile";
 import OrderHistory from "../../Pages/Profile/OrderHistory/OrderHistory";
-import { fetchUserData } from "../../services/userSlice";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
 import IngredientsPage from "../../Pages/Ingredients/Ingredients";
+import { fetchUserData } from "../../services/userQuery";
 
 function App() {
   const state = useSelector((store) => {
     return store;
   });
-  console.log(state);
   const dispatch = useDispatch();
   const location = useLocation();
   const navigate = useNavigate();
@@ -130,4 +129,3 @@ function App() {
 }
 
 export default App;
-// Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1NGM4OTFkYzJjYzYxMDAxYjNkNjhkYyIsImlhdCI6MTY5OTUyMzI4MiwiZXhwIjoxNjk5NTI0NDgyfQ.z7tnkUxSP-pv7vjmoqJEl2RPROWyXPg4NaM0iHSc25Q
