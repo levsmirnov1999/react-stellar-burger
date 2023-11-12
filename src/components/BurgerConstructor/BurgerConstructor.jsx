@@ -11,6 +11,7 @@ import { addIngredient } from "../../services/constructorSlice";
 import styles from "./BurgerConstructor.module.css";
 import PropTypes from "prop-types";
 import { createOrder } from "../../services/createOrderQuery";
+import { useNavigate } from "react-router-dom";
 
 function BurgerConstructor() {
   const bunInConstructor = useSelector((state) => state.constructorSlice.bun);
@@ -18,8 +19,13 @@ function BurgerConstructor() {
   const ingredientsInConstructor = useSelector(
     (state) => state.constructorSlice.ingredients
   );
+  const user = useSelector((state) => state.userSlice.user);
+  const isCreatingOrder = useSelector(
+    (state) => state.constructorSlice.isCreatingOrder
+  );
 
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const [, dropRef] = useDrop({
     accept: "ingredient",
@@ -29,6 +35,11 @@ function BurgerConstructor() {
   });
 
   const handleOrder = () => {
+    if (!user) {
+      navigate("/login");
+      return;
+    }
+
     const ingredientIds = ingredientsInConstructor.map(
       (ingredient) => ingredient._id
     );
@@ -97,11 +108,12 @@ function BurgerConstructor() {
           type="primary"
           size="large"
           htmlType="button"
-          disabled={!bunInConstructor}
+          disabled={!bunInConstructor || isCreatingOrder}
         >
           Оформить заказ
         </Button>
       </div>
+      {isCreatingOrder && <span className={styles.loader}></span>}
     </section>
   );
 }

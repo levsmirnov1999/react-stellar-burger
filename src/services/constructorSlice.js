@@ -8,6 +8,7 @@ const initialState = {
   totalPrice: 0,
   orderNumber: null,
   orderError: null,
+  isCreatingOrder: false,
 };
 
 const constructorSlice = createSlice({
@@ -60,13 +61,17 @@ const constructorSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(createOrder.pending, (state) => {})
+      .addCase(createOrder.pending, (state) => {
+        state.isCreatingOrder = true;
+      })
       .addCase(createOrder.fulfilled, (state, action) => {
+        state.isCreatingOrder = false;
         if (action.payload.success) {
           state.orderNumber = action.payload.order.number;
         }
       })
       .addCase(createOrder.rejected, (state, action) => {
+        state.isCreatingOrder = false;
         console.error("Ошибка:", action.error.message);
         state.orderError = action.error.message;
       });

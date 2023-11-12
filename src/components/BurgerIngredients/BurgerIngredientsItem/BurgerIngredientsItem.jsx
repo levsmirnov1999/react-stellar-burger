@@ -9,9 +9,12 @@ import { openIngredient } from "../../../services/modalSlice";
 import { useDrag } from "react-dnd";
 import PropTypes from "prop-types";
 import { ingredientsPropTypes } from "../../../utils/ingredientsPropTypes";
+import { useLocation, useNavigate } from "react-router-dom";
 
 function BurgerIngredientsItem({ ingredient }) {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
 
   const store = useSelector((store) => store);
   const ingredients = store.constructorSlice.ingredients;
@@ -41,7 +44,11 @@ function BurgerIngredientsItem({ ingredient }) {
   const getIngredientsData = (ingredient) => {
     dispatch(getIngredientData(ingredient));
     dispatch(openIngredient());
+    navigate(`/ingredients/${ingredient._id}`, {
+      state: { background: location },
+    });
   };
+
   return (
     <li
       className={styles.item}
