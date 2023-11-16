@@ -9,17 +9,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { initiatePasswordReset } from "../../services/userQuery";
 
 function ForgotPassword() {
-  const [email, setEmail] = React.useState("");
+  const [email, setEmail] = React.useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { passwordResetStatus, passwordResetError } = useSelector(
-    (state) => state.userSlice
+    (state: any) => state.userSlice
   );
 
-  const handlePasswordReset = async (e) => {
+  const handlePasswordReset = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(initiatePasswordReset(email)).unwrap();
+      const response = await dispatch(initiatePasswordReset(email));
       localStorage.setItem("resetPasswordAllowed", "true");
       navigate("/reset-password");
     } catch (error) {
