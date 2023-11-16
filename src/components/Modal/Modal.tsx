@@ -4,12 +4,17 @@ import PropTypes from "prop-types";
 import { ModalOverlay } from "../ModalOverlay/ModalOverlay";
 import styles from "./Modal.module.css";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-const modalsContainer = document.getElementById("modals");
+const modalsContainer = document.getElementById("modals") as HTMLElement;
 
-const Modal = ({ closeModal, children }) => {
+interface IModal {
+  closeModal: () => void;
+  children: React.ReactNode;
+}
+
+const Modal: React.FC<IModal> = ({ closeModal, children }) => {
   React.useEffect(() => {
-    const handleEscKeydown = (e) => {
-      e.key === "Escape" && closeModal(e);
+    const handleEscKeydown = (e: KeyboardEvent) => {
+      e.key === "Escape" && closeModal();
     };
 
     document.addEventListener("keydown", handleEscKeydown);
@@ -22,7 +27,7 @@ const Modal = ({ closeModal, children }) => {
     <>
       <div className={styles.modal}>
         <div className={styles.closeButton} onClick={closeModal}>
-          <CloseIcon onClick={closeModal} />
+          <CloseIcon type="primary" onClick={closeModal} />
         </div>
         {children}
       </div>
