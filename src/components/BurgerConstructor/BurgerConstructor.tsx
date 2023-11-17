@@ -9,19 +9,25 @@ import BurgerConstructorIngredient from "../BurgerConstructorIngredient/BurgerCo
 import { openOrderModal } from "../../services/modalSlice";
 import { addIngredient } from "../../services/constructorSlice";
 import styles from "./BurgerConstructor.module.css";
-import PropTypes from "prop-types";
+
 import { createOrder } from "../../services/createOrderQuery";
 import { useNavigate } from "react-router-dom";
+import React from "react";
+import { TIngredient } from "../../utils/types";
 
-function BurgerConstructor() {
-  const bunInConstructor = useSelector((state) => state.constructorSlice.bun);
-  const totalPrice = useSelector((state) => state.constructorSlice.totalPrice);
-  const ingredientsInConstructor = useSelector(
-    (state) => state.constructorSlice.ingredients
+const BurgerConstructor: React.FC = () => {
+  const bunInConstructor = useSelector(
+    (state: any) => state.constructorSlice.bun
   );
-  const user = useSelector((state) => state.userSlice.user);
+  const totalPrice = useSelector(
+    (state: any) => state.constructorSlice.totalPrice
+  );
+  const ingredientsInConstructor = useSelector(
+    (state: any) => state.constructorSlice.ingredients
+  );
+  const user = useSelector((state: any) => state.userSlice.user);
   const isCreatingOrder = useSelector(
-    (state) => state.constructorSlice.isCreatingOrder
+    (state: any) => state.constructorSlice.isCreatingOrder
   );
 
   const dispatch = useDispatch();
@@ -34,30 +40,25 @@ function BurgerConstructor() {
     },
   });
 
-  const handleOrder = () => {
+  const handleOrder = async () => {
     if (!user) {
       navigate("/login");
       return;
     }
 
     const ingredientIds = ingredientsInConstructor.map(
-      (ingredient) => ingredient._id
+      (ingredient: TIngredient) => ingredient._id
     );
     if (bunInConstructor) {
       ingredientIds.push(bunInConstructor._id, bunInConstructor._id);
     }
-    dispatch(createOrder(ingredientIds))
-      .unwrap()
-      .then((orderData) => {
-        if (orderData.success) {
-          dispatch(openOrderModal());
-        } else {
-          throw new Error(orderData.message);
-        }
-      })
-      .catch((error) => {
-        console.error("Ошибка:", error);
-      });
+
+    try {
+      await dispatch(createOrder(ingredientIds));
+      dispatch(openOrderModal());
+    } catch (error) {
+      console.error("Ошибка:", error);
+    }
   };
 
   return (
@@ -76,13 +77,15 @@ function BurgerConstructor() {
         )}
 
         <div className={`${styles.scroll} pr-2`}>
-          {ingredientsInConstructor.map((ingredient, index) => (
-            <BurgerConstructorIngredient
-              key={ingredient.uniqueId}
-              ingredient={ingredient}
-              index={index}
-            />
-          ))}
+          {ingredientsInConstructor.map(
+            (ingredient: TIngredient, index: number) => (
+              <BurgerConstructorIngredient
+                key={ingredient.uniqueId}
+                ingredient={ingredient}
+                index={index}
+              />
+            )
+          )}
         </div>
 
         {bunInConstructor && (
@@ -116,13 +119,5 @@ function BurgerConstructor() {
       {isCreatingOrder && <span className={styles.loader}></span>}
     </section>
   );
-}
-
-ConstructorElement.propTypes = {
-  isLocked: PropTypes.bool.isRequired,
-  text: PropTypes.string.isRequired,
-  price: PropTypes.number.isRequired,
-  thumbnail: PropTypes.string.isRequired,
 };
-
 export default BurgerConstructor;

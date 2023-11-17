@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import {
@@ -10,10 +10,17 @@ import {
   removeIngredient,
 } from "../../services/constructorSlice";
 import styles from "./BurgerConstructorIngredients.module.css";
-import PropTypes from "prop-types";
-import { ingredientsPropTypes } from "../../utils/ingredientsPropTypes";
+import { TIngredient } from "../../utils/types";
 
-function BurgerConstructorIngredient({ ingredient, index }) {
+type TBurgerConstructorIngredient = {
+  ingredient: TIngredient;
+  index: number;
+};
+
+const BurgerConstructorIngredient: React.FC<TBurgerConstructorIngredient> = ({
+  ingredient,
+  index,
+}) => {
   const handleDeleteIngredient = () => {
     dispatch(removeIngredient({ ingredient }));
   };
@@ -30,7 +37,7 @@ function BurgerConstructorIngredient({ ingredient, index }) {
 
   const [, dropTarget] = useDrop({
     accept: "constructorIngredient",
-    hover: (draggedItem) => {
+    hover: (draggedItem: { id: string; index: number }) => {
       if (draggedItem.id !== ingredient._id) {
         dispatch(
           moveIngredient({
@@ -57,11 +64,6 @@ function BurgerConstructorIngredient({ ingredient, index }) {
       />
     </li>
   );
-}
-
-BurgerConstructorIngredient.propTypes = {
-  ingredient: PropTypes.shape(ingredientsPropTypes),
-  index: PropTypes.number.isRequired,
 };
 
 export default BurgerConstructorIngredient;

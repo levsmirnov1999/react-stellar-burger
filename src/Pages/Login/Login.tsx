@@ -13,21 +13,19 @@ import { login } from "../../services/userQuery";
 function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { status, error } = useSelector((state) => state.userSlice);
+  const { status, error } = useSelector((state: any) => state.userSlice);
 
-  const [email, setEmail] = React.useState("");
-  const [pass, setPass] = React.useState("");
+  const [email, setEmail] = React.useState<string>("");
+  const [pass, setPass] = React.useState<string>("");
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(login({ email, password: pass }))
-      .unwrap()
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error("Failed to login: ", err);
-      });
+    try {
+      await dispatch(login({ email, password: pass }));
+      navigate("/");
+    } catch (err) {
+      console.error("Ошибка при входе: ", err);
+    }
   };
 
   return (

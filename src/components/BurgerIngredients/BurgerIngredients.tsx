@@ -5,14 +5,15 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsItem from "./BurgerIngredientsItem/BurgerIngredientsItem";
 import { toggleIngredientsTab } from "../../services/ingredientsSlice";
 import { useInView } from "react-intersection-observer";
+import { TIngredient } from "../../utils/types";
 
 function BurgerIngredients() {
   const { ingredients, ingredientsCurrentTab } = useSelector(
-    (state) => state.ingredientsSlice
+    (state: any) => state.ingredientsSlice
   );
   const dispatch = useDispatch();
 
-  const handleTabClick = (tab) => {
+  const handleTabClick = (tab: string) => {
     dispatch(toggleIngredientsTab(tab));
     const element = document.getElementById(tab);
     if (element) element.scrollIntoView({ behavior: "smooth" });
@@ -88,8 +89,8 @@ function BurgerIngredients() {
         </h2>
         <ul className={styles.list}>
           {ingredients
-            .filter((item) => item.type === "bun")
-            .map((item) => (
+            .filter((item: TIngredient) => item.type === "bun")
+            .map((item: TIngredient) => (
               <BurgerIngredientsItem key={item._id} ingredient={item} />
             ))}
         </ul>
@@ -102,8 +103,8 @@ function BurgerIngredients() {
         </h2>
         <ul className={styles.list}>
           {ingredients
-            .filter((item) => item.type === "sauce")
-            .map((item) => (
+            .filter((item: TIngredient) => item.type === "sauce")
+            .map((item: TIngredient) => (
               <BurgerIngredientsItem key={item._id} ingredient={item} />
             ))}
         </ul>
@@ -116,8 +117,8 @@ function BurgerIngredients() {
         </h2>
         <ul className={styles.list}>
           {ingredients
-            .filter((item) => item.type === "main")
-            .map((item) => (
+            .filter((item: TIngredient) => item.type === "main")
+            .map((item: TIngredient) => (
               <BurgerIngredientsItem key={item._id} ingredient={item} />
             ))}
         </ul>

@@ -1,7 +1,13 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL, checkResponse } from "../utils/utils";
 
-export const saveToLocalStorage = ({ accessToken, refreshToken }) => {
+export const saveToLocalStorage = ({
+  accessToken,
+  refreshToken,
+}: {
+  accessToken: string;
+  refreshToken: string;
+}) => {
   localStorage.setItem("accessToken", accessToken);
   localStorage.setItem("refreshToken", refreshToken);
 };
@@ -20,7 +26,14 @@ export const getFromLocalStorage = () => {
 
 export const register = createAsyncThunk(
   "auth/register",
-  async ({ email, password, name }, { rejectWithValue }) => {
+  async (
+    {
+      email,
+      password,
+      name,
+    }: { email: string; password: string; name: string },
+    { rejectWithValue }
+  ) => {
     const response = await fetch(`${BASE_URL}/auth/register`, {
       method: "POST",
       headers: {
@@ -39,7 +52,7 @@ export const register = createAsyncThunk(
 
 export const login = createAsyncThunk(
   "auth/login",
-  async ({ email, password }) => {
+  async ({ email, password }: { email: string; password: string }) => {
     const response = await fetch(`${BASE_URL}/auth/login`, {
       method: "POST",
       headers: {
@@ -72,7 +85,7 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 export const fetchUserData = createAsyncThunk(
   "auth/fetchUserData",
-  async (_, { getState }) => {
+  async (_, { getState }: { getState: any }) => {
     const { accessToken } = getState().userSlice;
     const response = await fetch(`${BASE_URL}/auth/user`, {
       method: "GET",
@@ -89,7 +102,7 @@ export const fetchUserData = createAsyncThunk(
 
 export const updateUserData = createAsyncThunk(
   "auth/updateUserData",
-  async (userUpdateData, { getState }) => {
+  async (userUpdateData: any, { getState }: { getState: any }) => {
     const { accessToken } = getState().userSlice;
     const response = await fetch(`${BASE_URL}/auth/user`, {
       method: "PATCH",
@@ -107,7 +120,7 @@ export const updateUserData = createAsyncThunk(
 
 export const initiatePasswordReset = createAsyncThunk(
   "auth/initiatePasswordReset",
-  async (email) => {
+  async (email: string) => {
     const response = await fetch(`${BASE_URL}/password-reset`, {
       method: "POST",
       headers: {
@@ -122,7 +135,7 @@ export const initiatePasswordReset = createAsyncThunk(
 
 export const confirmPasswordReset = createAsyncThunk(
   "auth/confirmPasswordReset",
-  async ({ password, token }) => {
+  async ({ password, token }: { password: string; token: string }) => {
     const response = await fetch(`${BASE_URL}/password-reset/reset`, {
       method: "POST",
       headers: {

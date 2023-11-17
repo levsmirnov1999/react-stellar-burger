@@ -13,23 +13,21 @@ import { register } from "../../services/userQuery";
 function Register() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const authStatus = useSelector((state) => state.userSlice.status);
-  const { status, error } = useSelector((state) => state.userSlice);
+  const authStatus = useSelector((state: any) => state.userSlice.status);
+  const { status, error } = useSelector((state: any) => state.userSlice);
 
-  const [email, setEmail] = React.useState("");
-  const [name, setName] = React.useState("");
-  const [pass, setPass] = React.useState("");
+  const [email, setEmail] = React.useState<string>("");
+  const [name, setName] = React.useState<string>("");
+  const [pass, setPass] = React.useState<string>("");
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(register({ email, password: pass, name }))
-      .unwrap()
-      .then(() => {
-        navigate("/");
-      })
-      .catch((err) => {
-        console.error("Failed to login: ", err);
-      });
+    try {
+      await dispatch(register({ email, password: pass, name }));
+      navigate("/");
+    } catch (err) {
+      console.error("Failed to register: ", err);
+    }
   };
 
   return (

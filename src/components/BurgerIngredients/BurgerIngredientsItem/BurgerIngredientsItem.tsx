@@ -7,22 +7,24 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredientData } from "../../../services/ingredientsSlice";
 import { openIngredient } from "../../../services/modalSlice";
 import { useDrag } from "react-dnd";
-import PropTypes from "prop-types";
-import { ingredientsPropTypes } from "../../../utils/ingredientsPropTypes";
 import { useLocation, useNavigate } from "react-router-dom";
+import { TIngredient } from "../../../utils/types";
+import React from "react";
 
-function BurgerIngredientsItem({ ingredient }) {
+const BurgerIngredientsItem: React.FC<{ ingredient: TIngredient }> = ({
+  ingredient,
+}) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const store = useSelector((store) => store);
+  const store = useSelector((store: any) => store);
   const ingredients = store.constructorSlice.ingredients;
-  const bun = useSelector((state) => state.constructorSlice.bun);
+  const bun = useSelector((state: any) => state.constructorSlice.bun);
 
-  const countIngredient = (ingredientId) => {
+  const countIngredient = (ingredientId: string | undefined) => {
     const countFromIngredients = ingredients.filter(
-      (ing) => ing._id === ingredientId
+      (ing: TIngredient) => ing._id === ingredientId
     ).length;
 
     let bunCount = 0;
@@ -41,7 +43,7 @@ function BurgerIngredientsItem({ ingredient }) {
     }),
   });
 
-  const getIngredientsData = (ingredient) => {
+  const getIngredientsData = (ingredient: TIngredient) => {
     dispatch(getIngredientData(ingredient));
     dispatch(openIngredient());
     navigate(`/ingredients/${ingredient._id}`, {
@@ -53,7 +55,7 @@ function BurgerIngredientsItem({ ingredient }) {
     <li
       className={styles.item}
       ref={dragRef}
-      tabIndex="0"
+      tabIndex={0}
       onClick={() => getIngredientsData(ingredient)}
     >
       <Counter count={countIngredient(ingredient._id)} size="default" />
@@ -68,10 +70,6 @@ function BurgerIngredientsItem({ ingredient }) {
       </p>
     </li>
   );
-}
-
-BurgerIngredientsItem.propTypes = {
-  ingredient: PropTypes.shape(ingredientsPropTypes),
 };
 
 export default BurgerIngredientsItem;

@@ -1,6 +1,15 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const initialState = {
+interface ModalState {
+  ingredientDetails: {
+    isOpened: boolean;
+  };
+  orderDetails: {
+    isOpened: boolean;
+  };
+}
+
+const initialState: ModalState = {
   ingredientDetails: {
     isOpened: false,
   },
@@ -13,14 +22,14 @@ const modalSlice = createSlice({
   name: "modal",
   initialState,
   reducers: {
-    closeAllModals: (state, action) => {
+    closeAllModals: (state) => {
       state.ingredientDetails.isOpened = false;
       state.orderDetails.isOpened = false;
     },
-    openIngredient: (state, action) => {
+    openIngredient: (state) => {
       state.ingredientDetails.isOpened = true;
     },
-    openOrderModal: (state, action) => {
+    openOrderModal: (state) => {
       state.orderDetails.isOpened = true;
     },
   },

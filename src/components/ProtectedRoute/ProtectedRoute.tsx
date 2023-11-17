@@ -2,8 +2,18 @@ import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useSelector } from "react-redux";
 
-function ProtectedRoute({ children, redirectTo = "/", restricted = false }) {
-  const { user } = useSelector((state) => state.userSlice);
+interface IProtectedRoute {
+  children: React.ReactNode;
+  redirectTo?: string;
+  restricted?: boolean;
+}
+
+function ProtectedRoute({
+  children,
+  redirectTo = "/",
+  restricted = false,
+}: IProtectedRoute) {
+  const { user } = useSelector((state: any) => state.userSlice);
   const location = useLocation();
 
   if (!user && !restricted) {
@@ -12,7 +22,7 @@ function ProtectedRoute({ children, redirectTo = "/", restricted = false }) {
     return <Navigate to={redirectTo} replace />;
   }
 
-  return children;
+  return <>{children}</>;
 }
 
 export default ProtectedRoute;

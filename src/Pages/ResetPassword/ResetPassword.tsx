@@ -10,12 +10,12 @@ import { useDispatch, useSelector } from "react-redux";
 import { confirmPasswordReset } from "../../services/userQuery";
 
 function ResetPassword() {
-  const [password, setPassword] = React.useState("");
-  const [token, setToken] = React.useState("");
+  const [password, setPassword] = React.useState<string>("");
+  const [token, setToken] = React.useState<string>("");
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { passwordResetStatus, passwordResetError } = useSelector(
-    (state) => state.userSlice
+    (state: any) => state.userSlice
   );
 
   React.useEffect(() => {
@@ -28,10 +28,10 @@ function ResetPassword() {
     return <Navigate to="/forgot-password" replace />;
   }
 
-  const handlePasswordChange = async (e) => {
+  const handlePasswordChange = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(confirmPasswordReset({ password, token })).unwrap();
+      await dispatch(confirmPasswordReset({ password, token }));
       localStorage.removeItem("resetPasswordAllowed");
       navigate("/login");
     } catch (error) {
