@@ -10,19 +10,19 @@ import { fetchUserData, updateUserData } from "../../../services/userQuery";
 
 function EditProfile() {
   const dispatch = useDispatch();
-  const user = useSelector((state) => state.userSlice.user);
-  const [name, setName] = useState({
+  const user = useSelector((state: any) => state.userSlice.user);
+  const [name, setName] = useState<{ userName: string; disabled: boolean }>({
     userName: user ? user.name : "",
     disabled: true,
   });
-  const [email, setEmail] = useState({
+  const [email, setEmail] = useState<{ mail: string; disabled: boolean }>({
     mail: user ? user.email : "",
     disabled: true,
   });
-  const [pass, setPass] = useState();
+  const [pass, setPass] = useState<string | undefined>();
 
-  const nameRef = useRef(null);
-  const emailRef = useRef(null);
+  const nameRef = useRef<HTMLInputElement | null>(null);
+  const emailRef = useRef<HTMLInputElement | null>(null);
   const initialUserData = useRef(user);
 
   useEffect(() => {
@@ -45,12 +45,11 @@ function EditProfile() {
     setTimeout(() => emailRef.current?.focus(), 0);
     setEmail({ ...email, disabled: false });
   };
-  const onSaveClick = async (e) => {
+  const onSaveClick = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      await dispatch(
-        updateUserData({ name: name.userName, email: email.mail })
-      ).unwrap();
+      const userUpdateData = { name: name.userName, email: email.mail };
+      await dispatch(updateUserData(userUpdateData));
     } catch (error) {
       console.error("Ошибка при обновлении данных:", error);
     }

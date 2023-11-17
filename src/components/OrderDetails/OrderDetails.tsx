@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 
 function OrderDetails() {
   const numberOrder = useSelector(
-    (state) => state.constructorSlice.orderNumber
+    (state: any) => state.constructorSlice.orderNumber
   );
 
   return (

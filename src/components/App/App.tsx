@@ -21,7 +21,7 @@ import IngredientsPage from "../../Pages/Ingredients/Ingredients";
 import { fetchUserData } from "../../services/userQuery";
 
 function App() {
-  const state = useSelector((store) => {
+  const state = useSelector((store: any) => {
     return store;
   });
   console.log(state);
@@ -37,7 +37,7 @@ function App() {
 
   const handleCloseModals = () => {
     dispatch(closeAllModals());
-    navigate(-1);
+    navigate("/");
   };
 
   return (
@@ -108,7 +108,7 @@ function App() {
       </main>
       {state.modalSlice?.orderDetails?.isOpened && (
         <Modal closeModal={handleCloseModals}>
-          <OrderDetails closeModal={handleCloseModals} />
+          <OrderDetails />
         </Modal>
       )}
       {background && (
@@ -119,7 +119,6 @@ function App() {
                 ingredientData={
                   state.ingredientsSlice.ingredientDetails.ingredient
                 }
-                closeModal={handleCloseModals}
               />
             </Modal>
           )}

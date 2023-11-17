@@ -1,17 +1,21 @@
 import styles from "./IngredientDetails.module.css";
-import PropTypes from "prop-types";
 import { useParams } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { ingredientsPropTypes } from "../../utils/ingredientsPropTypes";
+import { TIngredient } from "../../utils/types";
+import React from "react";
 
-function IngredientDetails({ ingredientData }) {
-  const { id } = useParams();
+function IngredientDetails({
+  ingredientData,
+}: {
+  ingredientData?: TIngredient;
+}) {
+  const { id } = useParams<{ id: string }>();
   const ingredients = useSelector(
-    (state) => state.ingredientsSlice.ingredients
+    (state: any) => state.ingredientsSlice.ingredients
   );
 
   const ingredient =
-    ingredientData || ingredients.find((item) => item._id === id);
+    ingredientData || ingredients.find((item: TIngredient) => item._id === id);
 
   if (!ingredient) {
     return <p>Ингредиент не найден</p>;
@@ -64,9 +68,5 @@ function IngredientDetails({ ingredientData }) {
     </div>
   );
 }
-
-IngredientDetails.propTypes = {
-  ingredientData: PropTypes.shape(ingredientsPropTypes),
-};
 
 export default IngredientDetails;
