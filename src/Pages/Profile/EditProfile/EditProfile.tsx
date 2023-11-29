@@ -5,12 +5,13 @@ import {
   PasswordInput,
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchUserData, updateUserData } from "../../../services/userQuery";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
+import { TUser } from "../../../utils/types";
 
 function EditProfile() {
-  const dispatch = useDispatch();
-  const user = useSelector((state: any) => state.userSlice.user);
+  const dispatch = useAppDispatch();
+  const user = useAppSelector((state) => state.userSlice.user);
   const [name, setName] = useState<{ userName: string; disabled: boolean }>({
     userName: user ? user.name : "",
     disabled: true,
@@ -23,7 +24,7 @@ function EditProfile() {
 
   const nameRef = useRef<HTMLInputElement | null>(null);
   const emailRef = useRef<HTMLInputElement | null>(null);
-  const initialUserData = useRef(user);
+  const initialUserData = useRef<TUser | null>(user);
 
   useEffect(() => {
     dispatch(fetchUserData());
@@ -56,9 +57,12 @@ function EditProfile() {
   };
 
   const onCancelClick = () => {
-    setName({ userName: initialUserData.current.name, disabled: true });
-    setEmail({ mail: initialUserData.current.email, disabled: true });
+    if (initialUserData.current) {
+      setName({ userName: initialUserData.current.name, disabled: true });
+      setEmail({ mail: initialUserData.current.email, disabled: true });
+    }
   };
+
   return (
     <form onSubmit={onSaveClick} className={styles.editProfile}>
       <Input

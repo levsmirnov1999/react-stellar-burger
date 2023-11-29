@@ -6,16 +6,16 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, Navigate, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { confirmPasswordReset } from "../../services/userQuery";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 function ResetPassword() {
   const [password, setPassword] = React.useState<string>("");
   const [token, setToken] = React.useState<string>("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { passwordResetStatus, passwordResetError } = useSelector(
-    (state: any) => state.userSlice
+  const { passwordResetStatus, passwordResetError } = useAppSelector(
+    (state) => state.userSlice
   );
 
   React.useEffect(() => {

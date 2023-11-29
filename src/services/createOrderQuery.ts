@@ -3,7 +3,7 @@ import { BASE_URL, checkResponse } from "../utils/utils";
 
 export const createOrder = createAsyncThunk(
   "burgerConstructor/createOrder",
-  async (ingredients: string[], thunkApi: any) => {
+  async (ingredients: (string | undefined)[], thunkApi: any) => {
     const token = thunkApi.getState().userSlice.accessToken;
     const response = await fetch(`${BASE_URL}/orders`, {
       method: "POST",

@@ -3,24 +3,24 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import styles from "./BurgerIngredientsItem.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { getIngredientData } from "../../../services/ingredientsSlice";
 import { openIngredient } from "../../../services/modalSlice";
 import { useDrag } from "react-dnd";
 import { useLocation, useNavigate } from "react-router-dom";
 import { TIngredient } from "../../../utils/types";
 import React from "react";
+import { useAppDispatch, useAppSelector } from "../../../hooks/hooks";
 
 const BurgerIngredientsItem: React.FC<{ ingredient: TIngredient }> = ({
   ingredient,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
 
-  const store = useSelector((store: any) => store);
+  const store = useAppSelector((store) => store);
   const ingredients = store.constructorSlice.ingredients;
-  const bun = useSelector((state: any) => state.constructorSlice.bun);
+  const bun = useAppSelector((state) => state.constructorSlice.bun);
 
   const countIngredient = (ingredientId: string | undefined) => {
     const countFromIngredients = ingredients.filter(

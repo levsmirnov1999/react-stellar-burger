@@ -1,6 +1,5 @@
 import React, { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
 import {
   ConstructorElement,
   DragIcon,
@@ -11,6 +10,7 @@ import {
 } from "../../services/constructorSlice";
 import styles from "./BurgerConstructorIngredients.module.css";
 import { TIngredient } from "../../utils/types";
+import { useAppDispatch } from "../../hooks/hooks";
 
 type TBurgerConstructorIngredient = {
   ingredient: TIngredient;
@@ -24,7 +24,7 @@ const BurgerConstructorIngredient: React.FC<TBurgerConstructorIngredient> = ({
   const handleDeleteIngredient = () => {
     dispatch(removeIngredient({ ingredient }));
   };
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const ref = useRef(null);
 
   const [, dragRef] = useDrag({

@@ -13,6 +13,8 @@ function AppHeader() {
   const { pathname } = useLocation();
   const homePage = pathname === "/";
   const profPage = pathname === "/profile/edit-profile";
+  const profOrders = pathname === "/profile/orders";
+  const feedPage = pathname === "/feed";
   return (
     <header className={`${styles.header} pt-4 pb-4`}>
       <nav className={styles.nav}>
@@ -33,12 +35,21 @@ function AppHeader() {
                 </>
               )}
             </Link>
-            <a href="#" className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
-              <ListIcon type="secondary" />
-              <p className="text text_type_main-default text_color_inactive">
-                Лента Заказов
-              </p>
-            </a>
+            <Link to="/feed" className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}>
+              {feedPage ? (
+                <>
+                  <ListIcon type="primary" />
+                  <p className="text text_type_main-default">Лента Заказов</p>
+                </>
+              ) : (
+                <>
+                  <ListIcon type="secondary" />
+                  <p className="text text_type_main-default text_color_inactive">
+                    Лента Заказов
+                  </p>
+                </>
+              )}
+            </Link>
           </li>
           <li>
             <Link to="/" className={styles.header__logo}>
@@ -50,7 +61,7 @@ function AppHeader() {
               to="/profile/edit-profile"
               className={`${styles.link} pl-5 pr-5 pt-4 pb-4`}
             >
-              {profPage ? (
+              {profPage || profOrders ? (
                 <>
                   <ProfileIcon type="primary" />
                   <p className="text text_type_main-default">Личный кабинет</p>

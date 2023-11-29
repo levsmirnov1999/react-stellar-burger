@@ -5,15 +5,14 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "react-redux";
-
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../../services/userQuery";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 function Login() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { status, error } = useSelector((state: any) => state.userSlice);
+  const { status, error } = useAppSelector((state) => state.userSlice);
 
   const [email, setEmail] = React.useState<string>("");
   const [pass, setPass] = React.useState<string>("");

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-interface ModalState {
+interface IModalState {
   ingredientDetails: {
     isOpened: boolean;
   };
@@ -9,7 +9,7 @@ interface ModalState {
   };
 }
 
-const initialState: ModalState = {
+const initialState: IModalState = {
   ingredientDetails: {
     isOpened: false,
   },

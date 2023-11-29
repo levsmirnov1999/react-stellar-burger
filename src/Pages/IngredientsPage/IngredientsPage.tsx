@@ -1,7 +1,7 @@
 import React from "react";
 import IngredientDetails from "../../components/IngredientDetails/IngredientDetails";
 
-import styles from "./Ingredients.module.css";
+import styles from "./IngredientsPage.module.css";
 
 function IngredientsPage() {
   return (

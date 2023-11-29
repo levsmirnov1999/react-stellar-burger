@@ -1,10 +1,10 @@
 import styles from "./OrderDetails.module.css";
 import check from "../../images/check.svg";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks/hooks";
 
 function OrderDetails() {
-  const numberOrder = useSelector(
-    (state: any) => state.constructorSlice.orderNumber
+  const numberOrder = useAppSelector(
+    (state) => state.constructorSlice.orderNumber
   );
 
   return (
@@ -14,11 +14,9 @@ function OrderDetails() {
       </p>
       <p className="text text_type_main-medium mb-15">идентификатор заказа</p>
       <img src={check} alt="Заказ принят" />
-      <p className="text text_type_main-default mt-15 mb-2">
-        Ваш заказ начали готовить
-      </p>
+      <p className="text text_type_main-default mt-15 mb-2">Ваш заказ готов</p>
       <p className="text text_type_main-default text_color_inactive ">
-        Дождитесь готовности на орбитальной станции
+        Заберите его на орбитальной станции
       </p>
     </div>
   );

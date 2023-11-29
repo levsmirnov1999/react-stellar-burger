@@ -1,17 +1,17 @@
 import React from "react";
 import styles from "./BurgerIngredients.module.css";
-import { useDispatch, useSelector } from "react-redux";
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import BurgerIngredientsItem from "./BurgerIngredientsItem/BurgerIngredientsItem";
 import { toggleIngredientsTab } from "../../services/ingredientsSlice";
 import { useInView } from "react-intersection-observer";
 import { TIngredient } from "../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 function BurgerIngredients() {
-  const { ingredients, ingredientsCurrentTab } = useSelector(
-    (state: any) => state.ingredientsSlice
+  const { ingredients, ingredientsCurrentTab } = useAppSelector(
+    (state) => state.ingredientsSlice
   );
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleTabClick = (tab: string) => {
     dispatch(toggleIngredientsTab(tab));

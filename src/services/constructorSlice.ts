@@ -1,8 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { v4 as uuidv4 } from "uuid";
 import { createOrder } from "./createOrderQuery";
+import { TIngredient } from "../utils/types";
 
-const initialState = {
+interface IConstructorState {
+  bun: TIngredient | null;
+  ingredients: TIngredient[];
+  totalPrice: number;
+  orderNumber: string | null;
+  orderError: string | null | undefined;
+  isCreatingOrder: boolean;
+}
+
+const initialState: IConstructorState = {
   bun: null,
   ingredients: [],
   totalPrice: 0,

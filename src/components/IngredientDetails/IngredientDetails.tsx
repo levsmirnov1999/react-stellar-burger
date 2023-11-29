@@ -1,17 +1,17 @@
 import styles from "./IngredientDetails.module.css";
 import { useParams } from "react-router-dom";
-import { useSelector } from "react-redux";
 import { TIngredient } from "../../utils/types";
 import React from "react";
+import { useAppSelector } from "../../hooks/hooks";
 
 function IngredientDetails({
   ingredientData,
 }: {
-  ingredientData?: TIngredient;
+  ingredientData?: TIngredient | null;
 }) {
   const { id } = useParams<{ id: string }>();
-  const ingredients = useSelector(
-    (state: any) => state.ingredientsSlice.ingredients
+  const ingredients = useAppSelector(
+    (state) => state.ingredientsSlice.ingredients
   );
 
   const ingredient =

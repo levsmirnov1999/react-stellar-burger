@@ -9,8 +9,19 @@ import {
   register,
   updateUserData,
 } from "./userQuery";
+import { TUser } from "../utils/types";
 
-const initialState = {
+interface IUserState {
+  user: TUser | null;
+  accessToken: string | null;
+  status: "idle" | "loading" | "succeeded" | "failed";
+  error: string | null;
+  passwordResetStatus: "idle" | "succeeded";
+  passwordResetError: string | null;
+  isAuthChecked: boolean;
+}
+
+const initialState: IUserState = {
   user: null,
   accessToken: getFromLocalStorage().accessToken,
   status: "idle",
