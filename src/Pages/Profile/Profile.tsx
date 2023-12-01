@@ -1,15 +1,15 @@
 import React from "react";
 import styles from "./Profile.module.css";
 import { Link, Outlet, useLocation, useNavigate } from "react-router-dom";
-import { useDispatch } from "react-redux";
 import { logout } from "../../services/userQuery";
+import { useAppDispatch } from "../../hooks/hooks";
 
 function Profile() {
   const navigate = useNavigate();
   const { pathname } = useLocation();
   const editPage = pathname === "/profile/edit-profile";
   const orderHistoryPage = pathname === "/profile/orders";
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleLogout = async () => {
     await dispatch(logout());
@@ -36,9 +36,16 @@ function Profile() {
         <button onClick={handleLogout} className={styles.exit}>
           <p className="text text_type_main-medium">Выход</p>
         </button>
-        <p className="text text_type_main-default mt-20 text_color_inactive">
-          В этом разделе вы можете изменить свои персональные данные
-        </p>
+        {editPage && (
+          <p className="text text_type_main-default mt-20 text_color_inactive">
+            В этом разделе вы можете изменить свои персональные данные
+          </p>
+        )}
+        {orderHistoryPage && (
+          <p className="text text_type_main-default mt-20 text_color_inactive">
+            В этом разделе вы можете просмотреть свою историю заказов
+          </p>
+        )}
       </div>
       <Outlet />
     </div>

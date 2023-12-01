@@ -1,4 +1,3 @@
-import { useSelector, useDispatch } from "react-redux";
 import { useDrop } from "react-dnd";
 import {
   ConstructorElement,
@@ -14,23 +13,24 @@ import { createOrder } from "../../services/createOrderQuery";
 import { useNavigate } from "react-router-dom";
 import React from "react";
 import { TIngredient } from "../../utils/types";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 const BurgerConstructor: React.FC = () => {
-  const bunInConstructor = useSelector(
-    (state: any) => state.constructorSlice.bun
+  const bunInConstructor = useAppSelector(
+    (state) => state.constructorSlice.bun
   );
-  const totalPrice = useSelector(
-    (state: any) => state.constructorSlice.totalPrice
+  const totalPrice = useAppSelector(
+    (state) => state.constructorSlice.totalPrice
   );
-  const ingredientsInConstructor = useSelector(
-    (state: any) => state.constructorSlice.ingredients
+  const ingredientsInConstructor = useAppSelector(
+    (state) => state.constructorSlice.ingredients
   );
-  const user = useSelector((state: any) => state.userSlice.user);
-  const isCreatingOrder = useSelector(
-    (state: any) => state.constructorSlice.isCreatingOrder
+  const user = useAppSelector((state: any) => state.userSlice.user);
+  const isCreatingOrder = useAppSelector(
+    (state) => state.constructorSlice.isCreatingOrder
   );
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
   const [, dropRef] = useDrop({

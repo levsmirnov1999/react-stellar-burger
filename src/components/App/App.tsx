@@ -4,7 +4,6 @@ import styles from "./App.module.css";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import { useDispatch, useSelector } from "react-redux";
 import { closeAllModals } from "../../services/modalSlice";
 import { fetchIngredients } from "../../services/ingredientsQuery";
 import { Routes, Route, useLocation, useNavigate } from "react-router-dom";
@@ -15,17 +14,21 @@ import ForgotPassword from "../../Pages/ForgotPassword/ForgotPassword";
 import ResetPassword from "../../Pages/ResetPassword/ResetPassword";
 import Profile from "../../Pages/Profile/Profile";
 import EditProfile from "../../Pages/Profile/EditProfile/EditProfile";
-import OrderHistory from "../../Pages/Profile/OrderHistory/OrderHistory";
+import { OrdersHistory } from "../../Pages/Profile/OrderHistory/OrderHistory";
 import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
-import IngredientsPage from "../../Pages/Ingredients/Ingredients";
+import IngredientsPage from "../../Pages/IngredientsPage/IngredientsPage";
 import { fetchUserData } from "../../services/userQuery";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
+import Feed from "../../Pages/Feed/Feed";
+import { OrderInfoPage } from "../../Pages/OrderInfoPage/OrderInfoPage";
+import { OrderInfo } from "../OrderInfo/OrderInfo";
 
 function App() {
-  const state = useSelector((store: any) => {
+  const state = useAppSelector((store) => {
     return store;
   });
   console.log(state);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const location = useLocation();
   const navigate = useNavigate();
   const background = location.state && location.state.background;
@@ -37,7 +40,7 @@ function App() {
 
   const handleCloseModals = () => {
     dispatch(closeAllModals());
-    navigate("/");
+    navigate(-1);
   };
 
   return (
@@ -98,11 +101,30 @@ function App() {
               path="orders"
               element={
                 <ProtectedRoute>
-                  <OrderHistory />
+                  <OrdersHistory />
                 </ProtectedRoute>
               }
             />
           </Route>
+          <Route
+            path="/profile/orders/:orderId"
+            element={
+              <ProtectedRoute>
+                <OrderInfoPage>
+                  <OrderInfo />
+                </OrderInfoPage>
+              </ProtectedRoute>
+            }
+          />
+          <Route path="/feed" element={<Feed />} />
+          <Route
+            path="/feed/:feedId"
+            element={
+              <OrderInfoPage>
+                <OrderInfo />
+              </OrderInfoPage>
+            }
+          />
           <Route path="/ingredients/:id" element={<IngredientsPage />} />
         </Routes>
       </main>
@@ -113,15 +135,35 @@ function App() {
       )}
       {background && (
         <>
-          {state.modalSlice?.ingredientDetails?.isOpened && (
-            <Modal closeModal={handleCloseModals}>
-              <IngredientDetails
-                ingredientData={
-                  state.ingredientsSlice.ingredientDetails.ingredient
-                }
-              />
-            </Modal>
-          )}
+          <>
+            {state.modalSlice?.ingredientDetails?.isOpened && (
+              <Modal closeModal={handleCloseModals}>
+                <IngredientDetails
+                  ingredientData={
+                    state.ingredientsSlice.ingredientDetails.ingredient
+                  }
+                />
+              </Modal>
+            )}
+          </>
+          <Routes>
+            <Route
+              path="/feed/:feedId"
+              element={
+                <Modal closeModal={handleCloseModals}>
+                  <OrderInfo />
+                </Modal>
+              }
+            />
+            <Route
+              path="profile/orders/:orderId"
+              element={
+                <Modal closeModal={handleCloseModals}>
+                  <OrderInfo />
+                </Modal>
+              }
+            />
+          </Routes>
         </>
       )}
     </>

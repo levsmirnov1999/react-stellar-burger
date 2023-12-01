@@ -2,7 +2,7 @@
   background-color: #000000;
   opacity: 0.6;
   overflow: hidden;
-  z-index: 0;
+  z-index: 99;
   top: 0;
   left: 0;
   right: 0;

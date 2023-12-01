@@ -5,15 +5,15 @@ import {
   Button,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { initiatePasswordReset } from "../../services/userQuery";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 function ForgotPassword() {
   const [email, setEmail] = React.useState<string>("");
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { passwordResetStatus, passwordResetError } = useSelector(
-    (state: any) => state.userSlice
+  const { passwordResetStatus, passwordResetError } = useAppSelector(
+    (state) => state.userSlice
   );
 
   const handlePasswordReset = async (e: React.FormEvent) => {

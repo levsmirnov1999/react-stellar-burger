@@ -1,6 +1,6 @@
 import React from "react";
 import { Navigate, useLocation } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useAppSelector } from "../../hooks/hooks";
 
 interface IProtectedRoute {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ function ProtectedRoute({
   redirectTo = "/",
   restricted = false,
 }: IProtectedRoute) {
-  const { user } = useSelector((state: any) => state.userSlice);
+  const { user } = useAppSelector((state) => state.userSlice);
   const location = useLocation();
 
   if (!user && !restricted) {

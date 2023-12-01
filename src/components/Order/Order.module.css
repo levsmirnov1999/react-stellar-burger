@@ -1,0 +1,39 @@
+.order {
+  display: flex;
+  flex-direction: column;
+  background-color: #1c1c21;
+  border-radius: 40px;
+  padding: 0 24px;
+}
+
+.top {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.compound {
+  display: grid;
+  grid-template-columns: 64px repeat(5, 48px);
+}
+
+.ingredient {
+  justify-self: flex-end;
+}
+
+.info {
+  margin: 24px 0;
+  display: flex;
+  justify-content: space-between;
+}
+
+.price {
+  justify-self: flex-end;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.done {
+  color: #00cccc;
+}

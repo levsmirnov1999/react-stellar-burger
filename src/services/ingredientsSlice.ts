@@ -1,7 +1,20 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { fetchIngredients } from "./ingredientsQuery";
+import { TIngredient } from "../utils/types";
 
-const initialState = {
+interface IIngredientDetails {
+  ingredient: TIngredient | null;
+}
+
+interface IIngredientsState {
+  ingredients: TIngredient[];
+  isLoading: boolean;
+  error: string;
+  ingredientsCurrentTab: string;
+  ingredientDetails: IIngredientDetails;
+}
+
+const initialState: IIngredientsState = {
   ingredients: [],
   isLoading: false,
   error: "",

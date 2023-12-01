@@ -7,14 +7,14 @@ import {
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { register } from "../../services/userQuery";
+import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 function Register() {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const authStatus = useSelector((state: any) => state.userSlice.status);
-  const { status, error } = useSelector((state: any) => state.userSlice);
+  const authStatus = useAppSelector((state) => state.userSlice.status);
+  const { status, error } = useAppSelector((state) => state.userSlice);
 
   const [email, setEmail] = React.useState<string>("");
   const [name, setName] = React.useState<string>("");
