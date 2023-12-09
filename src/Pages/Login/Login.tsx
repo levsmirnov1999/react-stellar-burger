@@ -5,12 +5,14 @@ import {
   Button,
   EmailInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login } from "../../services/userQuery";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 function Login() {
   const dispatch = useAppDispatch();
+  const location = useLocation();
+  const from = location.state?.from?.pathname || "/";
   const navigate = useNavigate();
   const { status, error } = useAppSelector((state) => state.userSlice);
 
@@ -21,7 +23,6 @@ function Login() {
     e.preventDefault();
     try {
       await dispatch(login({ email, password: pass }));
-      navigate("/");
     } catch (err) {
       console.error("Ошибка при входе: ", err);
     }

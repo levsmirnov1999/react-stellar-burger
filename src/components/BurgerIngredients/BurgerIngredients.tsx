@@ -8,7 +8,7 @@ import { TIngredient } from "../../utils/types";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 
 function BurgerIngredients() {
-  const { ingredients, ingredientsCurrentTab } = useAppSelector(
+  const { ingredients, ingredientsCurrentTab, isLoading } = useAppSelector(
     (state) => state.ingredientsSlice
   );
   const dispatch = useAppDispatch();
@@ -46,6 +46,10 @@ function BurgerIngredients() {
     inViewSauces,
     dispatch,
   ]);
+
+  if (isLoading) {
+    return <div>Загрузка...</div>;
+  }
 
   return (
     <section className={styles.burgerIngredients}>

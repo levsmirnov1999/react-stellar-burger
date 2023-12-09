@@ -38,3 +38,8 @@ export type TFeed = {
 export type TSameOrderIngredient = TIngredient & {
   quantity: number;
 };
+
+export interface IUserUpdateData {
+  name: string;
+  email: string;
+}

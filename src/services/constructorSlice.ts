@@ -82,7 +82,6 @@ const constructorSlice = createSlice({
       })
       .addCase(createOrder.rejected, (state, action) => {
         state.isCreatingOrder = false;
-        console.error("Ошибка:", action.error.message);
         state.orderError = action.error.message;
       });
   },

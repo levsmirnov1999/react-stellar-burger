@@ -1,5 +1,7 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { BASE_URL, checkResponse } from "../utils/utils";
+import { RootState } from "./store";
+import { IUserUpdateData } from "../utils/types";
 
 export const saveToLocalStorage = ({
   accessToken,
@@ -85,14 +87,17 @@ export const logout = createAsyncThunk("auth/logout", async () => {
 
 export const fetchUserData = createAsyncThunk(
   "auth/fetchUserData",
-  async (_, { getState }: { getState: any }) => {
-    const { accessToken } = getState().userSlice;
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const { accessToken } = state.userSlice;
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: accessToken || "",
+    };
+
     const response = await fetch(`${BASE_URL}/auth/user`, {
       method: "GET",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      },
+      headers,
     });
 
     const data = await checkResponse(response);
@@ -102,18 +107,20 @@ export const fetchUserData = createAsyncThunk(
 
 export const updateUserData = createAsyncThunk(
   "auth/updateUserData",
-  async (userUpdateData: any, { getState }: { getState: any }) => {
-    const { accessToken } = getState().userSlice;
+  async (userUpdateData: IUserUpdateData, thunkAPI) => {
+    const state = thunkAPI.getState() as RootState;
+    const { accessToken } = state.userSlice;
+    const headers: HeadersInit = {
+      "Content-Type": "application/json",
+      Authorization: accessToken || "",
+    };
     const response = await fetch(`${BASE_URL}/auth/user`, {
       method: "PATCH",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: accessToken,
-      },
+      headers,
       body: JSON.stringify(userUpdateData),
     });
 
-    const data = await checkResponse(response);
+    const data = await response.json();
     return data.user;
   }
 );

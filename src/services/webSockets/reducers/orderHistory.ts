@@ -30,7 +30,6 @@ export const orderHistoryReducer = (
         error: undefined,
         wsConnected: true,
       };
-
     case ORDER_HISTORY_ERROR:
       return {
         ...state,

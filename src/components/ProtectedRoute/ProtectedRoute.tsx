@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../hooks/hooks";
 
@@ -8,21 +8,21 @@ interface IProtectedRoute {
   restricted?: boolean;
 }
 
-function ProtectedRoute({
+export const ProtectedRoute: FC<IProtectedRoute> = ({
+  restricted,
   children,
-  redirectTo = "/",
-  restricted = false,
-}: IProtectedRoute) {
-  const { user } = useAppSelector((state) => state.userSlice);
+}) => {
+  const isLoggedIn = !!useAppSelector((state) => state.userSlice.user);
   const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/" } };
 
-  if (!user && !restricted) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  } else if (user && restricted) {
-    return <Navigate to={redirectTo} replace />;
+  if (restricted && isLoggedIn) {
+    return <Navigate to={from.pathname} replace />;
   }
 
-  return <>{children}</>;
-}
+  if (!restricted && !isLoggedIn) {
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
 
-export default ProtectedRoute;
+  return <> {children} </>;
+};

@@ -25,7 +25,7 @@ const BurgerConstructor: React.FC = () => {
   const ingredientsInConstructor = useAppSelector(
     (state) => state.constructorSlice.ingredients
   );
-  const user = useAppSelector((state: any) => state.userSlice.user);
+  const user = useAppSelector((state) => state.userSlice.user);
   const isCreatingOrder = useAppSelector(
     (state) => state.constructorSlice.isCreatingOrder
   );
