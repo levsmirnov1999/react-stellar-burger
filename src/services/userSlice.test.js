@@ -61,7 +61,7 @@ describe("userReducer", () => {
       user: null,
       accessToken: null,
       status: "idle",
-      isAuthChecked: false,
+      isAuthChecked: true,
     });
   });
 

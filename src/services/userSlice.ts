@@ -57,10 +57,14 @@ const userSlice = createSlice({
         state.user = null;
         state.accessToken = null;
         state.status = "idle";
-        state.isAuthChecked = false;
+        state.isAuthChecked = true;
       })
       .addCase(fetchUserData.fulfilled, (state, action) => {
         state.user = action.payload;
+        state.isAuthChecked = true;
+      })
+      .addCase(fetchUserData.rejected, (state, action) => {
+        state.user = null;
         state.isAuthChecked = true;
       })
       .addCase(updateUserData.fulfilled, (state, action) => {
