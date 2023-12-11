@@ -1,8 +1,10 @@
 import { BASE_URL } from "../../../src/utils/utils";
+const testUrl = "http://localhost:3000/";
+const BurgerConstructorOrder = "[class^=BurgerConstructor_order]";
 
 describe("app works correctly with routes", () => {
   beforeEach("открытие страницы", () => {
-    cy.visit("http://localhost:3000/");
+    cy.visit(testUrl);
     cy.viewport(1920, 1080);
   });
   it("should check modal ingredient details", () => {
@@ -18,25 +20,25 @@ describe("app works correctly with routes", () => {
     cy.get("[class*=item]")
       .contains("Краторная булка N-200i")
       .trigger("dragstart", { dataTransfer });
-    cy.get("[class^=BurgerConstructor_order]").trigger("drop", {
+    cy.get(BurgerConstructorOrder).trigger("drop", {
       dataTransfer,
     });
     cy.get("[class*=item]")
       .contains("Соус фирменный Space Sauce")
       .trigger("dragstart", { dataTransfer });
-    cy.get("[class^=BurgerConstructor_order]").trigger("drop", {
+    cy.get(BurgerConstructorOrder).trigger("drop", {
       dataTransfer,
     });
     cy.get("[class*=item]")
       .contains("Филе Люминесцентного тетраодонтимформа")
       .trigger("dragstart", { dataTransfer });
-    cy.get("[class^=BurgerConstructor_order]").trigger("drop", {
+    cy.get(BurgerConstructorOrder).trigger("drop", {
       dataTransfer,
     });
     cy.get("[class*=item]")
       .contains("Мини-салат Экзо-Плантаго")
       .trigger("dragstart", { dataTransfer });
-    cy.get("[class^=BurgerConstructor_order]").trigger("drop", {
+    cy.get(BurgerConstructorOrder).trigger("drop", {
       dataTransfer,
     });
     cy.get("button").contains("Оформить заказ").click();

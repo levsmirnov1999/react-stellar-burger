@@ -2,18 +2,10 @@ import modalReducer, {
   closeAllModals,
   openIngredient,
   openOrderModal,
+  initialState,
 } from "./modalSlice";
 
 describe("modalReducer", () => {
-  const initialState = {
-    ingredientDetails: {
-      isOpened: false,
-    },
-    orderDetails: {
-      isOpened: false,
-    },
-  };
-
   it("должен обработать начальное состояние", () => {
     expect(modalReducer(undefined, { type: "unknown" })).toEqual(initialState);
   });

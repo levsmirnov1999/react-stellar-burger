@@ -9,7 +9,7 @@ interface IModalState {
   };
 }
 
-const initialState: IModalState = {
+export const initialState: IModalState = {
   ingredientDetails: {
     isOpened: false,
   },

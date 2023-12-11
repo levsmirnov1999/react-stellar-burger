@@ -21,9 +21,9 @@ interface IUserState {
   isAuthChecked: boolean;
 }
 
-const initialState: IUserState = {
+export const initialState: IUserState = {
   user: null,
-  accessToken: getFromLocalStorage().accessToken,
+  accessToken: getFromLocalStorage().accessToken || null,
   status: "idle",
   error: null,
   passwordResetStatus: "idle",

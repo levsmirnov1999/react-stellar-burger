@@ -1,4 +1,4 @@
-import userReducer, { setAuthChecked } from "./userSlice";
+import userReducer, { setAuthChecked, initialState } from "./userSlice";
 import {
   register,
   login,
@@ -9,17 +9,9 @@ import {
   confirmPasswordReset,
 } from "./userQuery";
 
-describe("userReducer", () => {
-  const initialState = {
-    user: null,
-    accessToken: null,
-    status: "idle",
-    error: null,
-    passwordResetStatus: "idle",
-    passwordResetError: null,
-    isAuthChecked: false,
-  };
+const testUser = { name: "Test User", email: "test@example.com" };
 
+describe("userReducer", () => {
   it("должен обработать начальное состояние", () => {
     expect(userReducer(undefined, { type: "unknown" })).toEqual(initialState);
   });
@@ -32,7 +24,6 @@ describe("userReducer", () => {
   });
 
   it("должен обрабатывать register.fulfilled", () => {
-    const testUser = { name: "Test User", email: "test@example.com" };
     const testAction = {
       type: register.fulfilled.type,
       payload: { user: testUser, accessToken: "testToken" },
@@ -47,7 +38,6 @@ describe("userReducer", () => {
   });
 
   it("должен обрабатывать login.fulfilled", () => {
-    const testUser = { name: "Test User", email: "test@example.com" };
     const testAction = {
       type: login.fulfilled.type,
       payload: { user: testUser, accessToken: "testToken" },
@@ -62,7 +52,6 @@ describe("userReducer", () => {
   });
 
   it("должен обрабатывать logout.fulfilled", () => {
-    const testUser = { name: "Test User", email: "test@example.com" };
     const testAction = {
       type: logout.fulfilled.type,
       payload: { user: testUser, accessToken: "testToken" },

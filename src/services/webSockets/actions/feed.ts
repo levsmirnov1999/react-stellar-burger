@@ -1,3 +1,4 @@
+import { TFeed } from "../../../utils/types";
 import {
   FEED_CLOSE,
   FEED_CLOSED,
@@ -18,7 +19,33 @@ export interface IFeedClose {
   readonly payload: string;
 }
 
-export type TFeedActions = IFeedStart | IFeedClose;
+export interface IFeedSuccess {
+  readonly type: typeof FEED_SUCCESS;
+  readonly payload: Event;
+}
+
+export interface IFeedError {
+  readonly type: typeof FEED_ERROR;
+  readonly payload: Event;
+}
+
+export interface IFeedClosed {
+  readonly type: typeof FEED_CLOSED;
+  readonly payload: Event;
+}
+
+export interface IFeedGetMessage {
+  readonly type: typeof FEED_GET_MESSAGE;
+  readonly payload: TFeed;
+}
+
+export type TFeedActions =
+  | IFeedStart
+  | IFeedClose
+  | IFeedSuccess
+  | IFeedError
+  | IFeedClosed
+  | IFeedGetMessage;
 
 export const feedStart = (Url: string) => {
   return {

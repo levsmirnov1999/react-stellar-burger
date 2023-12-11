@@ -6,6 +6,7 @@ import {
   ORDER_HISTORY_GET_MESSAGE,
 } from "../constants";
 import { TFeed } from "../../../utils/types";
+import { TOrderHistoryActions } from "../actions/orderHistory";
 
 type TWSState = {
   wsConnected: boolean;
@@ -21,7 +22,7 @@ const initialState = {
 
 export const orderHistoryReducer = (
   state: TWSState = initialState,
-  action: any
+  action: TOrderHistoryActions
 ): TWSState => {
   switch (action.type) {
     case ORDER_HISTORY_SUCCESS:

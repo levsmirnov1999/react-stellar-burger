@@ -5,19 +5,11 @@ import constructorReducer, {
   moveIngredient,
   saveOrderNumber,
   setOrderError,
+  initialState,
 } from "./constructorSlice";
 import { createOrder } from "./createOrderQuery";
 
 describe("constructorReducer", () => {
-  const initialState = {
-    bun: null,
-    ingredients: [],
-    totalPrice: 0,
-    orderNumber: null,
-    orderError: null,
-    isCreatingOrder: false,
-  };
-
   it("должен обработать начальное состояние", () => {
     expect(constructorReducer(undefined, { type: "unknown" })).toEqual(
       initialState

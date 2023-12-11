@@ -14,7 +14,7 @@ interface IIngredientsState {
   ingredientDetails: IIngredientDetails;
 }
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   ingredients: [],
   isLoading: false,
   error: "",
