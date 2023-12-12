@@ -30,25 +30,30 @@ export const OrdersHistory: FC = () => {
       dispatch(orderHistoryClose("closed by client"));
     };
   }, []);
-
-  return orderHistory ? (
-    <ul className={styles.list}>
-      {orderHistory.orders.reverse().map((order) => {
-        return (
-          <Link
-            to={`/profile/orders/${order._id}`}
-            state={{ background: location, orderNumber: order.number }}
-            className={styles.link}
-            key={order._id}
-          >
-            <li className={styles.item}>
-              <Order order={order} status={true} />
-            </li>
-          </Link>
-        );
-      })}
-    </ul>
-  ) : (
-    <></>
+  return (
+    <section className={styles.orderHistory}>
+      {orderHistory ? (
+        <ul className={styles.list}>
+          {orderHistory.orders.reverse().map((order) => {
+            return (
+              <Link
+                to={`/profile/orders/${order._id}`}
+                state={{ background: location, orderNumber: order.number }}
+                className={styles.link}
+                key={order._id}
+              >
+                <li className={styles.item}>
+                  <Order order={order} status={true} />
+                </li>
+              </Link>
+            );
+          })}
+        </ul>
+      ) : (
+        <div className={styles.preloader}>
+          <span className={styles.loader}></span>
+        </div>
+      )}
+    </section>
   );
 };

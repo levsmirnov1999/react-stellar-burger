@@ -8,3 +8,11 @@ export const checkResponse = (res: Response) => {
 };
 
 export const wsURL = "wss://norma.nomoreparties.space/orders";
+
+export const config = {
+  baseUrl: "https://norma.nomoreparties.space/api",
+  headers: {
+    "Content-Type": "application/json",
+    Accept: "application/json",
+  },
+};

@@ -9,7 +9,6 @@ import {
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
 import { feedClose, feedStart } from "../../services/webSockets/actions/feed";
 import { TIngredient, TOrderFeedOptions } from "../../utils/types";
-import uuid from "react-uuid";
 import {
   orderHistoryClose,
   orderHistoryStart,
@@ -171,7 +170,7 @@ export const OrderInfo: FC = () => {
             } => !!item
           )
           .map(({ ingredient, count, price }) => (
-            <li key={uuid()} className={styles.ingredient}>
+            <li key={ingredient._id} className={styles.ingredient}>
               <div className={styles.picture}>
                 <ImageIngredient ingredient={ingredient} />
                 <p className="text text_type_main-default ml-4">

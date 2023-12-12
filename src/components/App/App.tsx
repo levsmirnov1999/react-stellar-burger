@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import AppHeader from "../AppHeader/AppHeader";
 import styles from "./App.module.css";
 import Modal from "../Modal/Modal";
@@ -15,7 +15,7 @@ import ResetPassword from "../../Pages/ResetPassword/ResetPassword";
 import Profile from "../../Pages/Profile/Profile";
 import EditProfile from "../../Pages/Profile/EditProfile/EditProfile";
 import { OrdersHistory } from "../../Pages/Profile/OrderHistory/OrderHistory";
-import ProtectedRoute from "../ProtectedRoute/ProtectedRoute";
+import { ProtectedRoute } from "../ProtectedRoute/ProtectedRoute";
 import IngredientsPage from "../../Pages/IngredientsPage/IngredientsPage";
 import { fetchUserData } from "../../services/userQuery";
 import { useAppDispatch, useAppSelector } from "../../hooks/hooks";
@@ -135,18 +135,19 @@ function App() {
       )}
       {background && (
         <>
-          <>
-            {state.modalSlice?.ingredientDetails?.isOpened && (
-              <Modal closeModal={handleCloseModals}>
-                <IngredientDetails
-                  ingredientData={
-                    state.ingredientsSlice.ingredientDetails.ingredient
-                  }
-                />
-              </Modal>
-            )}
-          </>
           <Routes>
+            <Route
+              path="/ingredients/:id"
+              element={
+                <Modal closeModal={handleCloseModals}>
+                  <IngredientDetails
+                    ingredientData={
+                      state.ingredientsSlice.ingredientDetails.ingredient
+                    }
+                  />
+                </Modal>
+              }
+            />
             <Route
               path="/feed/:feedId"
               element={

@@ -14,7 +14,7 @@ interface IIngredientsState {
   ingredientDetails: IIngredientDetails;
 }
 
-const initialState: IIngredientsState = {
+export const initialState: IIngredientsState = {
   ingredients: [],
   isLoading: false,
   error: "",
@@ -48,7 +48,7 @@ const ingredientsSlice = createSlice({
       })
       .addCase(fetchIngredients.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = "";
+        state.error = action.error.message || "Произошла ошибка";
       });
   },
 });

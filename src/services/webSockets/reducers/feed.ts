@@ -6,6 +6,7 @@ import {
   FEED_SUCCESS,
 } from "../constants";
 import { TFeed } from "../../../utils/types";
+import { TFeedActions } from "../actions/feed";
 
 type TWSState = {
   wsConnected: boolean;
@@ -21,7 +22,7 @@ const initialState = {
 
 export const feedReducer = (
   state: TWSState = initialState,
-  action: any
+  action: TFeedActions
 ): TWSState => {
   switch (action.type) {
     case FEED_SUCCESS:

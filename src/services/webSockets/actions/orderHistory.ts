@@ -1,3 +1,4 @@
+import { TFeed } from "../../../utils/types";
 import {
   ORDER_HISTORY_CLOSE,
   ORDER_HISTORY_CLOSED,
@@ -18,7 +19,33 @@ export interface IOrderHistoryClose {
   readonly payload: string;
 }
 
-export type TOrderHistoryActions = IOrderHistoryStart | IOrderHistoryClose;
+export interface IOrderHistorySuccess {
+  readonly type: typeof ORDER_HISTORY_SUCCESS;
+  readonly payload: Event;
+}
+
+export interface IOrderHistoryError {
+  readonly type: typeof ORDER_HISTORY_ERROR;
+  readonly payload: Event;
+}
+
+export interface IOrderHistoryClosed {
+  readonly type: typeof ORDER_HISTORY_CLOSED;
+  readonly payload: Event;
+}
+
+export interface IOrderHistoryGetMessage {
+  readonly type: typeof ORDER_HISTORY_GET_MESSAGE;
+  readonly payload: TFeed;
+}
+
+export type TOrderHistoryActions =
+  | IOrderHistoryStart
+  | IOrderHistoryClose
+  | IOrderHistorySuccess
+  | IOrderHistoryError
+  | IOrderHistoryClosed
+  | IOrderHistoryGetMessage;
 
 export const orderHistoryStart = (Url: string) => {
   return {

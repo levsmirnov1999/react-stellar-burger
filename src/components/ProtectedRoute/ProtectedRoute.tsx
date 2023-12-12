@@ -1,6 +1,7 @@
-import React from "react";
+import React, { FC } from "react";
 import { Navigate, useLocation } from "react-router-dom";
 import { useAppSelector } from "../../hooks/hooks";
+import styles from "./ProtectedRoute.module.css";
 
 interface IProtectedRoute {
   children: React.ReactNode;
@@ -8,21 +9,32 @@ interface IProtectedRoute {
   restricted?: boolean;
 }
 
-function ProtectedRoute({
+export const ProtectedRoute: FC<IProtectedRoute> = ({
+  restricted,
   children,
-  redirectTo = "/",
-  restricted = false,
-}: IProtectedRoute) {
-  const { user } = useAppSelector((state) => state.userSlice);
+}) => {
+  const isLoggedIn = useAppSelector((state) => state.userSlice.user);
+  const isAuthChecked = useAppSelector(
+    (state) => state.userSlice.isAuthChecked
+  );
   const location = useLocation();
+  const { from } = location.state || { from: { pathname: "/" } };
 
-  if (!user && !restricted) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  } else if (user && restricted) {
-    return <Navigate to={redirectTo} replace />;
+  if (!isAuthChecked) {
+    return (
+      <div className={styles.preloader}>
+        <span className={styles.loader}></span>
+      </div>
+    );
   }
 
-  return <>{children}</>;
-}
+  if (restricted && isLoggedIn) {
+    return <Navigate to={from.pathname} replace />;
+  }
 
-export default ProtectedRoute;
+  if (!restricted && !isLoggedIn) {
+    return <Navigate to="/login" state={{ from: location }} />;
+  }
+
+  return <> {children} </>;
+};
