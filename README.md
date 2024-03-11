@@ -15,8 +15,7 @@
 * WebSocket
 * Redux Toolkit
 * TypeScript
-* Redux Thunk (запросы к серверу проходят через усилители)
-* Jest и Cypress (использованы для тестирования)
+
 
 #### Установа:
 * клонирование репозитория: `git clone`
